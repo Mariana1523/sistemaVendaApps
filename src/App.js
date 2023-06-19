@@ -6,6 +6,7 @@ import ContactPage from "./ContactPage/contact";
 import HomePage from "./HomePage/home";
 import ShoppingPage from "./Shopping/shopping";
 import "./index.css";
+import Contact from "./ContactPage/contact";
 function App() {
   return (
     <div className="App">
