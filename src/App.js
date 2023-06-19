@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./Header/header";
 import ContactPage from "./ContactPage/contact";
@@ -10,10 +10,10 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <Switch>
-          <Route path="/contatos" component={ContactPage} />
-          <Route path="/" component={HomePage} />
-        </Switch>
+        <Routes>
+          <Route path="/contatos" element={<ContactPage></ContactPage>} />
+            <Route path="/" element={<HomePage></HomePage>} />
+        </Routes>
       </Router>
     </div>
   );
