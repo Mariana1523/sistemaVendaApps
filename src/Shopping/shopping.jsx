@@ -1,4 +1,5 @@
 import React from "react";
+<<<<<<< HEAD
 import "./shopping.css";
 
 function Catalogo() {
@@ -44,3 +45,14 @@ function Catalogo() {
 }
 
 export default Catalogo;
+=======
+
+
+function ShoppingPage() {
+  return (
+     <h1>Produtos</h1>
+  );
+}
+
+export default ShoppingPage;
+>>>>>>> 90847302c6a577ec318a142c9bdba8a54085dbd0
