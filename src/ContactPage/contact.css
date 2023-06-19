@@ -1,0 +1,46 @@
+.contatos {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border: 1px solid #ccc;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+}
+
+form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 90%;
+  padding: 10px 10px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  height: 100px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
