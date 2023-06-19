@@ -5,6 +5,7 @@ import Header from "./Header/header";
 import ContactPage from "./ContactPage/contact";
 import HomePage from "./HomePage/home";
 import ShoppingPage from "./Shopping/shopping";
+import LoginPage from "./LoginPage/loginPage";
 import "./index.css";
 import Contact from "./ContactPage/contact";
 function App() {
@@ -14,8 +15,9 @@ function App() {
         <Header />
         <Routes>
           <Route path="/contatos" element={<ContactPage></ContactPage>} />
-            <Route path="/" element={<HomePage></HomePage>} />
-            <Route path="/shopping" element={<ShoppingPage></ShoppingPage>} />
+          <Route path="/" element={<HomePage></HomePage>} />
+          <Route path="/shopping" element={<ShoppingPage></ShoppingPage>} />
+          <Route path="/loginPage" element={<LoginPage></LoginPage>} />
         </Routes>
       </Router>
     </div>
