@@ -5,7 +5,7 @@ import Header from "./Header/header";
 import ContactPage from "./ContactPage/contact";
 import HomePage from "./HomePage/home";
 import ShoppingPage from "./Shopping/shopping";
-
+import "./index.css";
 function App() {
   return (
     <div className="App">
