@@ -73,7 +73,7 @@ const products = [
   ]
   
   export default function ShoppingPage() {
-        const [isPopupOpen, setPopupOpen] = useState(false);
+        const [isPopupOpen, setPopupOpen] = useState(null);
         const [selectedColor, setSelectedColor] = useState(product.colors[0])
         const [selectedSize, setSelectedSize] = useState(product.sizes[2])
         return (
@@ -95,7 +95,7 @@ const products = [
                       <div>
                         <h3 className="text-sm text-gray-700">
                           <a href={product.href}>
-                            <span aria-hidden="true" className="absolute inset-0" />
+                            
                             {product.name}
                           </a>
                         </h3>
@@ -112,8 +112,8 @@ const products = [
               <div className="fixed inset-0 flex items-center justify-center">
                 <div className="bg-white p-8 rounded-lg">
                   <h2 className="text-2xl font-bold mb-4">Pop-up Content</h2>
-                  <Transition.Root show={isPopupOpen} as={Fragment}>
-                    <Dialog as="div" className="relative z-10" onClose={setPopupOpen}>
+                  <Transition.Root show={true} as={Fragment}>
+                    <Dialog as="div" className="relative z-10" onClose={() => setPopupOpen(null)}>
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
