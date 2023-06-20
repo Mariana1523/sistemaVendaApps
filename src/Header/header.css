@@ -2,7 +2,27 @@
   background-color: #333;
   padding: 20px;
 }
-
+nav{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.navSpace{
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+}
+.navSpace2{
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+ padding-right: 60px;
+}
+.loggoutButton{
+ 
+  color: white;
+  border-radius: 30px;
+}
 .nav-list {
   list-style-type: none;
   display: flex;
@@ -12,6 +32,7 @@
 }
 
 .nav-item {
+  display: flex;
   margin-right: 20px;
 }
 
