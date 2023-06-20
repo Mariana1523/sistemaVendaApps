@@ -9,7 +9,7 @@ import { StarIcon } from '@heroicons/react/20/solid'
 
 const product = {
   name: 'Basic Tee 6-Pack ',
-  price: '$192',
+  price: 'R$192',
   rating: 3.9,
   reviewCount: 117,
   href: '#',
@@ -162,28 +162,7 @@ const products = [
 
                                         <p className="text-2xl text-gray-900">{product.price}</p>
 
-                                        {/* Reviews */}
-                                        <div className="mt-6">
-                                        <h4 className="sr-only">Reviews</h4>
-                                        <div className="flex items-center">
-                                            <div className="flex items-center">
-                                            {[0, 1, 2, 3, 4].map((rating) => (
-                                                <StarIcon
-                                                key={rating}
-                                                className={classNames(
-                                                    product.rating > rating ? 'text-gray-900' : 'text-gray-200',
-                                                    'h-5 w-5 flex-shrink-0'
-                                                )}
-                                                aria-hidden="true"
-                                                />
-                                            ))}
-                                            </div>
-                                            <p className="sr-only">{product.rating} out of 5 stars</p>
-                                            <a href="#" className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                            {product.reviewCount} reviews
-                                            </a>
-                                        </div>
-                                        </div>
+                                        
                                     </section>
 
                                     <section aria-labelledby="options-heading" className="mt-10">
@@ -294,7 +273,7 @@ const products = [
                                             type="submit"
                                             className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                         >
-                                            Add to bag
+                                            Comprar 
                                         </button>
                                         </form>
                                     </section>

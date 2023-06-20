@@ -9,7 +9,7 @@ const Header = () => {
     <header className="header">
       <nav>
         <div className="navSpace">
-            <ul className="nav-list">
+            <ul className="nav-list nav-list flex justify-center items-center h-full">
             
             <li className="nav-item">
               <Link to="/">Home</Link>
@@ -30,7 +30,7 @@ const Header = () => {
             setLogged(false)
           }}
           >
-              Loggout
+              Sair
             </button>
         </div>
         
