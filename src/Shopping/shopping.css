@@ -1,3 +1,6 @@
 .pointer{
     cursor: pointer;
 }
+.pointer:hover{
+    scale: 1.1;
+}
