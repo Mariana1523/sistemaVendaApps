@@ -1,8 +1,10 @@
 import { useContext, useState } from "react"
 import AuthContext from "../Context/AuthContext"
 
+
 import axios from 'axios';
-import { Route, useRoutes } from "react-router-dom";
+
+
 function criarUsuario(nome, email, senha){
   const novoUsuario = {
     nome: nome,
@@ -21,15 +23,15 @@ function criarUsuario(nome, email, senha){
     // Faça o tratamento de erro necessário
   });
 } 
-function verificaLogin(email, senha){
-  const url = 'http://localhost:3001/verificaUsuario'; // Substitua pela sua URL correta
+async function verificaLogin(email, senha){
+  const url = 'http://localhost:3001/verificaUsuario'; 
 
   const data = {
     email: email,
     senha: senha
   };
 
-  return axios.post(url, data)
+  return  await axios.post(url, data)
     .then(response => {
       // Se a resposta for bem-sucedida, você pode tratar a resposta aqui
         if(response.status == 200){
@@ -52,6 +54,8 @@ export default function LoginPage() {
     const {setLogged} = useContext(AuthContext);
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+    //const navigate = useNavigate();
+
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     };
@@ -124,13 +128,13 @@ export default function LoginPage() {
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={()=>{
                     
-                   
                     verificaLogin(email, senha)
                     .then(result => {
                       if (result === true) {
-                        // Login bem-sucedido, faça algo aqui
+                        
                         setLogged(true)
-                       
+                        
+                        
                       } else {
                         // Login inválido, faça algo aqui
                         setLogged(false)
@@ -141,6 +145,8 @@ export default function LoginPage() {
                       // Tratar o erro da Promise, se necessário
                       console.error(error);
                     });
+                    
+                   
                   }}
                 >
                   Login
