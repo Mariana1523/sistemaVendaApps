@@ -4,7 +4,8 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-const port = 3001; // Escolha uma porta adequada para o seu servidor
+app.use(express.json());
+const port = 3001; 
 
 const cliente = new Client({
    user:"postgres",
@@ -14,9 +15,7 @@ const cliente = new Client({
    database: "Sistema"
 })
  
-
 cliente.connect()
-
 
 app.get('/usuarios', (req, res) => {
     cliente.query('SELECT * FROM usuario')
@@ -29,7 +28,41 @@ app.get('/usuarios', (req, res) => {
         res.status(500).send('Erro interno do servidor');
       });
 });
-  
+app.post('/verificaUsuario', (req, res) => {
+  const { email, senha } = req.body; // Supondo que você esteja enviando o email do usuário no corpo da requisição
+  const query = 'SELECT * FROM usuario WHERE email = $1 and senha = $2';
+
+  cliente
+    .query(query, [email,senha])
+    .then(results => {
+      const usuario = results.rows[0]; // Pega o primeiro usuário retornado (se houver)
+      if (usuario) {
+        res.status(200).send('Usuário encontrado');
+      } else {
+        res.status(201).send('Usuário não encontrado');
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send('Erro interno do servidor');
+    });
+});
+
+app.post('/criaUsuario', (req, res) => {
+  const {nome, email, senha } = req.body; // Supondo que você esteja enviando os dados do usuário no corpo da requisição
+  const query = 'INSERT INTO usuario (nome, email, senha) VALUES ($1, $2, $3)';
+
+  cliente
+    .query(query, [nome, email, senha])
+    .then(() => {
+      res.status(201).send('Usuário criado com sucesso');
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send('Erro interno do servidor');
+    });
+});
+
 app.listen(port, () => {
     console.log(`Servidor está ouvindo na porta ${port}`);
 });
