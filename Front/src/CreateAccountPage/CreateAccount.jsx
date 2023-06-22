@@ -2,18 +2,48 @@ import "./CreateAccount.css";
 import { useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Switch } from '@headlessui/react'
-
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-
+function criarUsuario(nome, email, senha) {
+    const novoUsuario = {
+      nome: nome,
+      email: email,
+      senha: senha,
+    };
+    
+    axios.post("http://localhost:3001/criaUsuario", novoUsuario)
+    .then(response => {
+      console.log('Usuário criado com sucesso');
+      
+      // Faça o tratamento adicional necessário após a criação do usuário
+    })
+    .catch(error => {
+      console.error('Erro ao criar usuário', error);
+      // Faça o tratamento de erro necessário
+    });
+  } 
 export default function CreateAccount() {
   const [agreed, setAgreed] = useState(false)
-
+  const [email, setEmail] = useState('')
+    const [senha, setSenha] = useState('')
+    const [nome, setNome] = useState('')
+    const navigate = useNavigate();
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleSenhaChange = (event) => {
+    setSenha(event.target.value);
+  };
+  const handleNomeChange = (event) => {
+    setNome(event.target.value);
+  };
   return (
-    <div className="isolate bg-white px-6 py-10 lg:px-8">
+    <div className="isolate bg-white px-6 py-10 lg:px-8 formulario">
       <div
-        className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-80rem]"
+        className="absolute inset-x-0 top-[-10rem]  -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-80rem]"
         aria-hidden="true"
       >
         { <div
@@ -28,8 +58,7 @@ export default function CreateAccount() {
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Crie sua conta</h2>
        
       </div>
-      <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-10">
-        <div className="grid grid-cols-1 gap-x-30 gap-y-6 sm:grid-cols-2">
+        <div className="grid inputs grid-cols-1 gap-x-30 gap-y-6 sm:grid-cols-2">
           <div>
             <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
               Nome
@@ -39,6 +68,8 @@ export default function CreateAccount() {
                 type="text"
                 name="first-name"
                 id="first-name"
+                value={nome}
+                onChange={handleNomeChange}
                 autoComplete="given-name"
                 className="block nomeInput rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -54,6 +85,8 @@ export default function CreateAccount() {
                 type="email"
                 name="email"
                 id="email"
+                value={email}
+                onChange={handleEmailChange}
                 autoComplete="email"
                 className="block emailInput w-300 rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -68,6 +101,8 @@ export default function CreateAccount() {
                 id="password"
                 name="password"
                 type="password"
+                value={senha}
+                onChange={handleSenhaChange}
                 autoComplete="current-password"
                 required
                 className="block senhaInput w-300 rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -107,12 +142,15 @@ export default function CreateAccount() {
         <div className="mt-10">
           <button
             type="submit"
-            className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block botaoCriar w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={()=>{
+                criarUsuario(nome, email, senha) 
+                navigate('/')       
+            }}
           >
             Criar Conta
           </button>
         </div>
-      </form>
     </div>
   )
 }

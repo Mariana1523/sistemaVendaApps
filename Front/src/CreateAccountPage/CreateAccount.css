@@ -6,13 +6,13 @@
     margin: 0 auto;
   }
 .emailInput{
-   width: 50% !important;
+   width: 35% !important;
 }
 .nomeInput{
     width: 70% !important;
 }
 .senhaInput{
-    width: 50% !important;
+    width: 35% !important;
 }
   h1 {
     color: #333;
@@ -29,7 +29,7 @@
   
   label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     color: #666;
   }
   
@@ -52,4 +52,15 @@
     border: none;
     cursor: pointer;
   }
-  
+.formulario{
+    padding: 100px 0px !important;
+    
+}
+.botaoCriar{
+    width: 30%  !important;
+    margin-left: 560px !important;
+}
+.inputs{
+    margin-top: 50px  !important;
+    margin-left: 590px !important;
+}

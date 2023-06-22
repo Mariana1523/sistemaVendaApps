@@ -7,24 +7,7 @@ import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
 
 
-function criarUsuario(nome, email, senha) {
-  const novoUsuario = {
-    nome: nome,
-    email: email,
-    senha: senha,
-  };
-  
-  axios.post("http://localhost:3001/criaUsuario", novoUsuario)
-  .then(response => {
-    console.log('Usuário criado com sucesso');
-    
-    // Faça o tratamento adicional necessário após a criação do usuário
-  })
-  .catch(error => {
-    console.error('Erro ao criar usuário', error);
-    // Faça o tratamento de erro necessário
-  });
-} 
+
 function verificaLogin(email, senha){
   const url = 'http://localhost:3001/verificaUsuario'; // Substitua pela sua URL correta
 
@@ -122,7 +105,7 @@ export default function LoginPage() {
   
               <div>
                 <button
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full mt-6 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={()=>{
                          
                     verificaLogin(email, senha)
