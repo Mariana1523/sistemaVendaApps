@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./header.css";
 import AuthContext from "../Context/AuthContext";
-import {server} from '../Backend/server'
+import axios from 'axios';
 const Header = () => {
   const {setLogged} = useContext(AuthContext)
   return (
@@ -28,7 +28,13 @@ const Header = () => {
           <button className="loggoutButton"
           onClick={()=>{
             setLogged(false)
-            console.log(server)
+            axios.get('http://localhost:3001/usuarios')
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.error(error);
+            });
           }}
           >
               Sair
