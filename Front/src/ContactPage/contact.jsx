@@ -2,14 +2,56 @@ import "./contact.css";
 import { useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Switch } from '@headlessui/react'
+import { useNavigate } from 'react-router-dom'
+import axios from "axios";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+function salvarContato(nome, sobrenome, email, celular, mensagem) {
+    const salvarMensagem = {
+      nome: nome,
+      sobrenome: sobrenome,
+      email: email,
+      celular: celular,
+      mensagem: mensagem,
+    };
+    
+    axios.post("http://localhost:3001/salvaContato", salvarMensagem)
+    .then(response => {
+      console.log('Contato salvo com sucesso');
+      // Faça o tratamento adicional necessário após a criação do usuário
+    })
+    .catch(error => {
+      console.error('Erro ao salvar contato', error);
+      // Faça o tratamento de erro necessário
+    });
+  } 
+
 export default function ContactPage() {
   const [agreed, setAgreed] = useState(false)
-
+  const [email, setEmail] = useState('')
+  const [mensagem, setMensagem] = useState('')
+  const [nome, setNome] = useState('')
+  const [sobrenome, setSobrenome] = useState('')
+  const [celular, setCelular] = useState('')
+  const navigate = useNavigate();
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleMensagemChange = (event) => {
+    setMensagem(event.target.value);
+  };
+  const handleNomeChange = (event) => {
+    setNome(event.target.value);
+  };
+  const handleSobrenomeChange = (event) => {
+    setSobrenome(event.target.value);
+  };
+  const handleCelularChange = (event) => {
+    setCelular(event.target.value);
+  };
   return (
     <div className="isolate bg-white px-6 py-10 lg:px-8">
       <div
@@ -41,6 +83,8 @@ export default function ContactPage() {
                 type="text"
                 name="first-name"
                 id="first-name"
+                value={nome}
+                onChange={handleNomeChange}
                 autoComplete="given-name"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -55,6 +99,8 @@ export default function ContactPage() {
                 type="text"
                 name="last-name"
                 id="last-name"
+                value={sobrenome}
+                onChange={handleSobrenomeChange}
                 autoComplete="family-name"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -69,6 +115,8 @@ export default function ContactPage() {
                 type="email"
                 name="email"
                 id="email"
+                value={email}
+                onChange={handleEmailChange}
                 autoComplete="email"
                 className="block w-300 rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -99,6 +147,8 @@ export default function ContactPage() {
                 type="tel"
                 name="phone-number"
                 id="phone-number"
+                value={celular}
+                onChange={handleCelularChange}
                 autoComplete="tel"
                 className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -112,6 +162,8 @@ export default function ContactPage() {
               <textarea
                 name="message"
                 id="message"
+                value={mensagem}
+                onChange={handleMensagemChange}
                 rows={4}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 defaultValue={''}
@@ -151,6 +203,10 @@ export default function ContactPage() {
           <button
             type="submit"
             className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={()=>{
+              salvarContato(nome, sobrenome, celular, email, mensagem) 
+              navigate('/')       
+          }}
           >
             Contate-nos
           </button>
