@@ -10,6 +10,7 @@ import "./index.css";
 
 
 import AuthContext from "./Context/AuthContext";
+import CreateAccount from "./CreateAccountPage/CreateAccount";
 
 function App() {
   const { logged } = useContext(AuthContext);
@@ -30,7 +31,16 @@ function App() {
   }
   else{
     return(
-      <LoginPage></LoginPage>
+      <div className="App">
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<LoginPage></LoginPage>} />
+            
+            <Route path="/criarConta" element={<CreateAccount></CreateAccount>} />
+          </Routes>
+        </Router>
+      </div>
        
     );
   }

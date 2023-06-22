@@ -4,8 +4,8 @@ import AuthContext from "../Context/AuthContext";
 
 import axios from "axios";
 
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useHistory } from "react-router-dom";
 
 function criarUsuario(nome, email, senha) {
   const novoUsuario = {
@@ -59,6 +59,7 @@ export default function LoginPage() {
     const handleSenhaChange = (event) => {
       setSenha(event.target.value);
     };
+    
     return (
       <>
       
@@ -75,7 +76,7 @@ export default function LoginPage() {
           </div>
   
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" >
+            
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                   Email
@@ -100,9 +101,9 @@ export default function LoginPage() {
                     Senha
                   </label>
                   <div className="text-sm">
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                      Esqueceu a senha?
-                    </a>
+                    <Link to='/criarConta' className="font-semibold text-indigo-600 hover:text-indigo-500">
+                      Criar Conta
+                    </Link>
                   </div>
                 </div>
                 <div className="mt-2">
@@ -121,18 +122,16 @@ export default function LoginPage() {
   
               <div>
                 <button
-                  type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={()=>{
-                    
-                   
+                         
                     verificaLogin(email, senha)
                     .then(result => {
                       if (result === true) {
                         // Login bem-sucedido, faça algo aqui
                         setLogged(true)
-                        
                        
+                         
                       } else {
                         // Login inválido, faça algo aqui
                         setLogged(false);
@@ -148,14 +147,8 @@ export default function LoginPage() {
                   Login
                 </button>
               </div>
-            </form>
+          
   
-            {/* <p className="mt-10 text-center text-sm text-gray-500">
-              Not a member?{' '}
-              <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                Start a 14 day free trial
-              </a>
-            </p> */}
         </div>
       </div>
     </>

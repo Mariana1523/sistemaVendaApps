@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./header.css";
+import { useNavigate } from 'react-router-dom';
 import AuthContext from "../Context/AuthContext";
 import axios from 'axios';
 const Header = () => {
   const {logged, setLogged} = useContext(AuthContext)
+  const navigate = useNavigate();
   if (logged){
     return (
       <header className="header">
@@ -29,13 +31,7 @@ const Header = () => {
             <button className="loggoutButton"
             onClick={()=>{
               setLogged(false)
-              axios.get('http://localhost:3001/usuarios')
-              .then(response => {
-                console.log(response.data)
-              })
-              .catch(error => {
-                console.error(error);
-              });
+              navigate('/')
             }}
             >
                 Sair
