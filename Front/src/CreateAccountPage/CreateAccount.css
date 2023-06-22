@@ -5,7 +5,15 @@
     max-width: 500px;
     margin: 0 auto;
   }
-  
+.emailInput{
+   width: 50% !important;
+}
+.nomeInput{
+    width: 70% !important;
+}
+.senhaInput{
+    width: 50% !important;
+}
   h1 {
     color: #333;
     text-align: center;
