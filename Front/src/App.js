@@ -30,7 +30,8 @@ function App() {
   }
   else{
     return(
-       <LoginPage></LoginPage>
+      <LoginPage></LoginPage>
+       
     );
   }
   
