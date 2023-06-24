@@ -1,6 +1,6 @@
 //import React from "react";
 import "./shopping.css";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { Fragment} from 'react'
@@ -36,6 +36,7 @@ const product = {
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+
 
 const products = [
     {
@@ -74,6 +75,26 @@ const products = [
   ]
   
   export default function ShoppingPage() {
+
+        const [products, setProducts] = useState([]);
+
+        useEffect(() => {
+          getAplicativos();
+        }, []);
+        
+        function getAplicativos() {
+          axios.get('http://localhost:3001/aplicativos')
+            .then(function (response) {
+              // Manipulando a resposta bem-sucedida
+              console.log(response.data);
+              setProducts(response.data); // Atualizar o estado com os dados recebidos
+            })
+            .catch(function (error) {
+              // Manipulando erros
+              console.log(error);
+            });
+        }
+
         const [isPopupOpen, setPopupOpen] = useState(null);
         const [selectedColor, setSelectedColor] = useState(product.colors[0])
         const [selectedSize, setSelectedSize] = useState(product.sizes[2])
@@ -87,8 +108,7 @@ const products = [
                   <div key={product.id} onClick={() => setPopupOpen(true)}>
                     <div className="aspect-h-1 pointer aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                       <img
-                        src={product.imageSrc}
-                        alt={product.imageAlt}
+                        src={product.imagem}
                         className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                       />
                     </div>
@@ -97,12 +117,11 @@ const products = [
                         <h3 className="text-sm text-gray-700">
                           <a href={product.href}>
                             
-                            {product.name}
+                            {product.nome}
                           </a>
                         </h3>
-                        <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                       </div>
-                      <p className="text-sm font-medium text-gray-900">{product.price}</p>
+                      <p className="text-sm font-medium text-gray-900">{product.preco}</p>
                     </div>
                   </div>
                 ))}
