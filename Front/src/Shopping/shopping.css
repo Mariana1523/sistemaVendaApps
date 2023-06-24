@@ -4,3 +4,8 @@
 .pointer:hover{
     scale: 1.1;
 }
+h4{
+    align-self: flex-start;
+    margin-bottom: 7px;
+    
+}
