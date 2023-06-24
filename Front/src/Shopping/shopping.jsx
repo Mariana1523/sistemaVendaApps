@@ -76,10 +76,7 @@ const products = [
   
   export default function ShoppingPage() {
 
-        const [products, setProducts] = useState([]);
-        const [isPopupOpen, setPopupOpen] = useState(null);
-        const [selectedColor, setSelectedColor] = useState(product.colors[0])
-        const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+       
 
         useEffect(() => {
           getAplicativos();
