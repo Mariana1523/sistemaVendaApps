@@ -9,7 +9,7 @@ const port = 3001;
 
 const cliente = new Client({
    user:"postgres",
-   password:"2002",
+   password:"123",
    host:"127.0.0.1",
    port:5432,
    database: "Sistema"
@@ -81,5 +81,20 @@ app.post('/salvaContato', (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor está ouvindo na porta ${port}`);
 });
+
+app.get('/aplicativos', (req, res) => {
+  cliente.query('SELECT * FROM aplicativo', (error, results) => {
+    if (error) {
+      // Lida com o erro de consulta
+      console.error(error);
+      res.status(500).json({ error: 'Erro ao recuperar os aplicativos' });
+    } else {
+      // Envia os dados recuperados para o frontend
+      res.status(200).json(results.rows);
+    }
+  });
+});
+
+
 
 
