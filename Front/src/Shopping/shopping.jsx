@@ -77,6 +77,9 @@ const products = [
   export default function ShoppingPage() {
 
         const [products, setProducts] = useState([]);
+        const [isPopupOpen, setPopupOpen] = useState(null);
+        const [selectedColor, setSelectedColor] = useState(product.colors[0])
+        const [selectedSize, setSelectedSize] = useState(product.sizes[2])
 
         useEffect(() => {
           getAplicativos();
@@ -95,9 +98,7 @@ const products = [
             });
         }
 
-        const [isPopupOpen, setPopupOpen] = useState(null);
-        const [selectedColor, setSelectedColor] = useState(product.colors[0])
-        const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+        
         return (
           <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -123,7 +124,9 @@ const products = [
                       </div>
                       <p className="text-sm font-medium text-gray-900">{product.preco}</p>
                     </div>
+                     
                   </div>
+                  
                 ))}
               </div>
             </div>
