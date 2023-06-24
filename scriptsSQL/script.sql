@@ -56,3 +56,14 @@ VALUES (4, 'Fast Chat',
 
 select * from usuario;
 select * from aplicativo;
+
+
+CREATE TABLE contato
+(
+    id SERIAL PRIMARY KEY,
+    nome  varchar(30),
+    sobrenome  varchar(50),
+    email  varchar(255),
+    celular varchar(30),
+    mensagem TEXT
+);
