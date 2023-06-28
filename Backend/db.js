@@ -50,7 +50,7 @@ app.post('/verificaUsuario', (req, res) => {
 
 app.post('/criaUsuario', (req, res) => {
   const {nome, email, senha } = req.body; // Supondo que você esteja enviando os dados do usuário no corpo da requisição
-  const query = 'INSERT INTO usuario (nome, email, senha) VALUES ($1, $2, $3)';
+  const query = 'INSERT INTO usuario (nome, email, senha, isadmin) VALUES ($1, $2, $3, false)';
 
   cliente
     .query(query, [nome, email, senha])
