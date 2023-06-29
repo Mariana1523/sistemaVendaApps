@@ -30,7 +30,7 @@ export default function LoginPage() {
           const usuario = response.data;
           console.log("Usuário nome? : ", usuario.isadmin);
           const usuarioLogado = {
-            id: usuario.is,
+            id: usuario.id,
             nome: usuario.nome,
             senha: usuario.senha,
             email: usuario.email,

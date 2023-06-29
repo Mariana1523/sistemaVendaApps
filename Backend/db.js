@@ -9,7 +9,7 @@ const port = 3001;
 
 const cliente = new Client({
   user: "postgres",
-  password: "admin_melzinha",
+  password: "admin_pr",
   host: "127.0.0.1",
   port: 5432,
   database: "Sistema",
@@ -82,11 +82,11 @@ app.post("/salvaContato", (req, res) => {
 });
 
 app.post("/salvaCompra", (req, res) => {
-  const { idusuario, idapp } = req.body;
+  const { idUser, idApp } = req.body;
   const query = "INSERT INTO compra (idusuario, idapp) VALUES ($1, $2)";
-
+ 
   cliente
-    .query(query, [idusuario, idapp])
+    .query(query, [idUser, idApp])
     .then(() => {
       res.status(201).send("Compra realizada!");
     })

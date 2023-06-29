@@ -15,7 +15,7 @@ function classNames(...classes) {
 
 export default function ShoppingPage() {
   const [products, setProducts] = useState([]);
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [selectedProduct, setSelectedProduct] = useState([]);
   const [isPopupOpen, setPopupOpen] = useState(null);
   useEffect(() => {
@@ -40,8 +40,7 @@ export default function ShoppingPage() {
       idApp: idApp,
       idUser: idUser,
     };
-    console.log("idApp: " + idApp);
-    console.log("idUser: " + idUser);
+    
     axios
       .post("http://localhost:3001/salvaCompra", salvaCompra)
       .then(function (response) {
@@ -53,8 +52,8 @@ export default function ShoppingPage() {
       });
   }
 
-  function renderPopUp(selectedProduct) {
-    if (isPopupOpen) {
+  function renderPopUp() {
+    if (isPopupOpen && selectedProduct) {
       return (
         <div className="fixed inset-0 flex items-center justify-center">
           <div className="bg-white p-8 rounded-lg">
@@ -63,7 +62,7 @@ export default function ShoppingPage() {
               <Dialog
                 as="div"
                 className="relative z-10"
-                onClose={() => setPopupOpen(null)}
+                onClose={() => setPopupOpen(false)}
               >
                 <Transition.Child
                   as={Fragment}
@@ -131,31 +130,17 @@ export default function ShoppingPage() {
                                 aria-labelledby="options-heading"
                                 className="mt-10"
                               >
-                                <h3 id="options-heading" className="sr-only">
-                                  Product options
-                                </h3>
-
-                                <div className="mt-10">
-                                  <div className="flex items-center justify-between">
-                                    <h4 className="text-sm font-medium text-gray-900">
-                                      Size
-                                    </h4>
-                                    <a
-                                      href="#"
-                                      className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                    >
-                                      Size guide
-                                    </a>
-                                  </div>
-                                </div>
+                                
 
                                 <button
                                   onClick={() => {
-                                    console.log("UserId: " + user.id);
+                                    setPopupOpen(false)
+                                    realizarCompra(user.id, selectedProduct.codapp)
+                                    
                                   }}
                                   className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
-                                  c
+                                  Comprar
                                 </button>
                               </section>
                             </div>
@@ -167,16 +152,12 @@ export default function ShoppingPage() {
                 </div>
               </Dialog>
             </Transition.Root>
-            <button
-              className="mt-4 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg"
-              onClick={() => setPopupOpen(false)}
-            >
-              Fechar
-            </button>
+          
           </div>
         </div>
       );
     }
+    return null
   }
 
   return (
@@ -190,15 +171,14 @@ export default function ShoppingPage() {
           {products.map((product) => (
             <div
               key={product.id}
-              onClick={() => {
-                console.log("UserId: " + user.id);
-
+              onClick={ (event) => {
+                console.log("UserId: " + user.Id);
                 setPopupOpen(true);
+                event.stopPropagation()
                 setSelectedProduct(product);
-                console.log(product);
               }}
             >
-              {renderPopUp(selectedProduct)}
+              
               <div className="aspect-h-1 pointer aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <img
                   src={product.imagem}
@@ -215,8 +195,10 @@ export default function ShoppingPage() {
                   {product.preco}
                 </p>
               </div>
+              
             </div>
           ))}
+          {renderPopUp()}
         </div>
       </div>
     </div>

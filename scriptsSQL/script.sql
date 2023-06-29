@@ -72,13 +72,7 @@ alter table usuario
 add isadmin boolean  
 select * from usuario
 
-CREATE TABLE compra (
-  id SERIAL PRIMARY KEY,
-  idUsuario numeric(9),
-	idApp numeric(9),
-  email VARCHAR(255),
-	valor numeric(9),
-);
+
 
 CREATE TABLE compra (
   id SERIAL PRIMARY KEY,
