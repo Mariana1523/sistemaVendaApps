@@ -71,3 +71,22 @@ CREATE TABLE contato
 alter table usuario
 add isadmin boolean  
 select * from usuario
+
+CREATE TABLE compra (
+  id SERIAL PRIMARY KEY,
+  idUsuario numeric(9),
+	idApp numeric(9),
+  email VARCHAR(255),
+	valor numeric(9),
+);
+
+CREATE TABLE compra (
+  id SERIAL PRIMARY KEY,
+  idUsuario integer,
+  idApp integer,
+  valor numeric,
+  data_compra date DEFAULT CURRENT_DATE,
+  FOREIGN KEY (idUsuario) REFERENCES usuario(id),
+  FOREIGN KEY (idApp) REFERENCES aplicativo(codapp)
+);
+

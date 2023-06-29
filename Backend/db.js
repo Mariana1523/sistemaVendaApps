@@ -9,7 +9,7 @@ const port = 3001;
 
 const cliente = new Client({
   user: "postgres",
-  password: "admin_pr",
+  password: "admin_melzinha",
   host: "127.0.0.1",
   port: 5432,
   database: "Sistema",
@@ -74,6 +74,21 @@ app.post("/salvaContato", (req, res) => {
     .query(query, [nome, sobrenome, email, celular, mensagem])
     .then(() => {
       res.status(201).send("Contato salvo com sucesso");
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+app.post("/salvaCompra", (req, res) => {
+  const { idusuario, idapp } = req.body;
+  const query = "INSERT INTO compra (idusuario, idapp) VALUES ($1, $2)";
+
+  cliente
+    .query(query, [idusuario, idapp])
+    .then(() => {
+      res.status(201).send("Compra realizada!");
     })
     .catch((error) => {
       console.error(error);
