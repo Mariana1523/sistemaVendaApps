@@ -43,7 +43,11 @@ function classNames(...classes) {
         useEffect(() => {
           getAplicativos();
         }, []);
-        
+        function commit(){
+           console.log("commiutS")
+           console.log("oi")
+           console.log("Teste")
+        }
         function getAplicativos() {
           axios.get('http://localhost:3001/aplicativos')
             .then(function (response) {
