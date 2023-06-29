@@ -131,7 +131,7 @@ export default function ShoppingPage() {
                                 className="mt-10"
                               >
                                 
-
+                                {selectedProduct.descricao}
                                 <button
                                   onClick={() => {
                                     setPopupOpen(false)
