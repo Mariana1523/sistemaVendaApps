@@ -67,3 +67,7 @@ CREATE TABLE contato
     celular varchar(30),
     mensagem TEXT
 );
+
+alter table usuario
+add isadmin boolean  
+select * from usuario
