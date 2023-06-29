@@ -1,19 +1,18 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./header.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../Context/AuthContext";
-import axios from 'axios';
+import axios from "axios";
 const Header = () => {
-  const {logged, setLogged} = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  if (logged){
+  if (user) {
     return (
       <header className="header">
         <nav>
           <div className="navSpace">
-              <ul className="nav-list nav-list flex justify-center items-center h-full">
-              
+            <ul className="nav-list nav-list flex justify-center items-center h-full">
               <li className="nav-item">
                 <Link to="/">Home</Link>
               </li>
@@ -23,26 +22,24 @@ const Header = () => {
               <li className="nav-item">
                 <Link to="/contatos">Entre em Contato</Link>
               </li>
-              
             </ul>
           </div>
-          
+
           <div className="navSpace2">
-            <button className="loggoutButton"
-            onClick={()=>{
-              setLogged(false)
-              navigate('/')
-            }}
+            <span className="username">Olá, {user.nome}</span>
+            <button
+              className="loggoutButton"
+              onClick={() => {
+                setUser(null);
+                navigate("/");
+              }}
             >
-                Sair
-              </button>
+              Sair
+            </button>
           </div>
-          
-        
         </nav>
       </header>
     );
   }
-  
 };
 export default Header;

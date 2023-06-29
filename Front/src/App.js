@@ -8,13 +8,12 @@ import ShoppingPage from "./Shopping/shopping";
 import LoginPage from "./LoginPage/loginPage";
 import "./index.css";
 
-
 import AuthContext from "./Context/AuthContext";
 import CreateAccount from "./CreateAccountPage/CreateAccount";
 
 function App() {
-  const { logged } = useContext(AuthContext);
-  if(logged){
+  const { user } = useContext(AuthContext);
+  if (user) {
     return (
       <div className="App">
         <Router>
@@ -22,29 +21,29 @@ function App() {
           <Routes>
             <Route path="/contatos" element={<ContactPage></ContactPage>} />
             <Route path="/" element={<HomePage></HomePage>} />
-            
+
             <Route path="/shopping" element={<ShoppingPage></ShoppingPage>} />
           </Routes>
         </Router>
       </div>
     );
-  }
-  else{
-    return(
+  } else {
+    return (
       <div className="App">
         <Router>
           <Header />
           <Routes>
             <Route path="/" element={<LoginPage></LoginPage>} />
-            
-            <Route path="/criarConta" element={<CreateAccount></CreateAccount>} />
+
+            <Route
+              path="/criarConta"
+              element={<CreateAccount></CreateAccount>}
+            />
           </Routes>
         </Router>
       </div>
-       
     );
   }
-  
 }
 
 export default App;

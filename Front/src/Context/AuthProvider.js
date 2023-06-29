@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import AuthContext from "./AuthContext";
 
 function AuthProvider({ children }) {
-  const [logged, setLogged] = useState(false);
+  const [user, setUser] = useState({});
 
   return (
-    <AuthContext.Provider value={{ logged, setLogged }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );
