@@ -1,11 +1,27 @@
 import React, { useState } from 'react';
 import "./Dashboard.css"
+import axios from 'axios';
 // Componente do Dashboard
 export default function Dashpage() {
   const [activeContent, setActiveContent] = useState('content1');
+  const [totalCompras, settotalCompras] = useState(0);
 
+  function getCompras() {
+    axios
+      .get("http://localhost:3001/totalCompras")
+      .then(function (response) {
+        // Manipulando a resposta bem-sucedida
+        console.log(response.data[0].quantidade_compras);
+        settotalCompras(response.data[0].quantidade_compras); // Atualizar o estado com os dados recebidos
+      })
+      .catch(function (error) {
+        // Manipulando erros
+        console.log(error);
+      });
+  }
   const handleItemClick = (content) => {
     setActiveContent(content);
+    getCompras()
   };
 
   return (
@@ -25,13 +41,13 @@ export default function Dashpage() {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Nome</th>
+                  <th>Compras Totais Realizadas</th>
                   <th>Email</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Usuário 1</td>
+                  <td>{totalCompras}</td>
                   <td>usuario1@example.com</td>
                 </tr>
                 <tr>

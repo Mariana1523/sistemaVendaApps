@@ -27,9 +27,12 @@ const Header = () => {
           </div>
 
           <div className="navSpace2">
-          <li className="nav-item dashHeader">
+            {user.isadmin &&(
+                <li className="nav-item dashHeader">
                 <Link to="/Dashboard">Dashboard</Link>
               </li>
+            )
+            }
             <span className="username">Olá, {user.nome}</span>
             <button
               className="loggoutButton"
