@@ -2,8 +2,7 @@
     display: flex;
     height: 90vh;
   }
-  
-  
+
   .main-content {
     flex: 1;
     display: flex;
@@ -50,3 +49,27 @@
   }
   
   
+  
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  color: #333;
+}
+
+.table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #333;
+}
