@@ -9,7 +9,7 @@ const port = 3001;
 
 const cliente = new Client({
   user: "postgres",
-  password: "admin_melzinha",
+  password: "123",
   host: "127.0.0.1",
   port: 5432,
   database: "Sistema",
@@ -29,6 +29,21 @@ app.get("/usuarios", (req, res) => {
       res.status(500).send("Erro interno do servidor");
     });
 });
+
+// modificar aqui 
+app.get("/totalCompras", (req, res) => {
+  cliente
+    .query("SELECT * FROM usuario")
+    .then((results) => {
+      const resultado = results.rows;
+      res.send(resultado);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
 app.post("/verificaUsuario", (req, res) => {
   const { email, senha } = req.body; // Supondo que você esteja enviando o email do usuário no corpo da requisição
   const query = "SELECT * FROM usuario WHERE email = $1 and senha = $2";

@@ -10,6 +10,7 @@ import "./index.css";
 
 import AuthContext from "./Context/AuthContext";
 import CreateAccount from "./CreateAccountPage/CreateAccount";
+import Dashpage from "./Dashboard/Dashboard";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -21,7 +22,7 @@ function App() {
           <Routes>
             <Route path="/contatos" element={<ContactPage></ContactPage>} />
             <Route path="/" element={<HomePage></HomePage>} />
-
+            <Route path="/Dashboard" element={<Dashpage></Dashpage>} />
             <Route path="/shopping" element={<ShoppingPage></ShoppingPage>} />
           </Routes>
         </Router>
