@@ -30,10 +30,10 @@ app.get("/usuarios", (req, res) => {
     });
 });
 
-// modificar aqui 
+
 app.get("/totalCompras", (req, res) => {
   cliente
-    .query("SELECT COUNT(*) AS quantidade_compras FROM compra;")
+    .query("SELECT COUNT(*) AS quantidade_compras, SUM(valor) AS valor_total_compras FROM compra;")
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);
@@ -45,7 +45,73 @@ app.get("/totalCompras", (req, res) => {
 });
 
 
+app.get("/comprasPorUsuario", (req, res) => {
+  cliente
+    .query("SELECT u.nome AS nome_usuario, COUNT(c.id) AS quantidade_compras, SUM(c.valor) AS valor_total_compras FROM usuario uma LEFT JOIN compra c ON u.id = c.idUsuario GROUP BY u.id, u.nome;")
+    .then((results) => {
+      const resultado = results.rows;
+      res.send(resultado);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
 
+app.get("/valorMedioPorUsuario", (req, res) => {
+  cliente
+    .query("SELECT u.id, u.nome, AVG(c.valor) AS valor_medio_compras FROM usuario u LEFT JOIN compra c ON u.id = c.idUsuario sGROUP BY u.id, u.nome;")
+    .then((results) => {
+      const resultado = results.rows;
+      res.send(resultado);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+
+app.get("/appsMaisVendidos", (req, res) => {
+  cliente
+    .query("SELECT a.nome, COUNT(c.id) AS numero_compras FROM aplicativo a LEFT JOIN compra c ON a.codapp = c.idApp GROUP BY a.codapp, a.nome ORDER BY numero_compras DESC LIMIT 2;")
+    .then((results) => {
+      const resultado = results.rows;
+      res.send(resultado);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+
+app.get("/comprasPorMes", (req, res) => {
+  cliente
+    .query("SELECT DATE_TRUNC('month', data_compra) AS mes, COUNT(*) AS numero_compras FROM compra GROUP BY mes ORDER BY mes;")
+    .then((results) => {
+      const resultado = results.rows;
+      res.send(resultado);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+
+app.get("/usuariosCompraramFinancas", (req, res) => {
+  cliente
+    .query("SELECT nome FROM usuario WHERE id IN ( SELECT idUsuario FROM compra WHERE idApp IN ( SELECT codapp FROM aplicativo WHERE categoria = 'Finanças');")
+    .then((results) => {
+      const resultado = results.rows;
+      res.send(resultado);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
 
 app.post("/verificaUsuario", (req, res) => {
   const { email, senha } = req.body; // Supondo que você esteja enviando o email do usuário no corpo da requisição

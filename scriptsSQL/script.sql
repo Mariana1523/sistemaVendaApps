@@ -123,7 +123,7 @@ FROM compra
 GROUP BY mes
 ORDER BY mes;
 
--- Lista de usuários que compraram pelo menos um aplicativo da categoria "Jogos":
+-- Lista de usuários que compraram pelo menos um aplicativo da categoria "Finanças":
 SELECT nome
 FROM usuario
 WHERE id IN (
