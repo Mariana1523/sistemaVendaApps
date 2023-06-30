@@ -73,7 +73,6 @@ add isadmin boolean
 select * from usuario
 
 
-
 CREATE TABLE compra (
   id SERIAL PRIMARY KEY,
   idUsuario integer,
@@ -84,3 +83,55 @@ CREATE TABLE compra (
   FOREIGN KEY (idApp) REFERENCES aplicativo(codapp)
 );
 
+-- pesquisas no banco de dados
+
+-- numero total de compras
+SELECT COUNT(*) AS quantidade_compras FROM compra;
+
+-- soma total dos valores das compras
+SELECT SUM(valor) AS valor_total_compras FROM compra;
+
+-- quantidade de compras por usuário
+SELECT u.nome AS nome_usuario, COUNT(c.id) AS quantidade_compras, SUM(c.valor) AS valor_total_compras
+FROM usuario uma
+LEFT JOIN compra c ON u.id = c.idUsuario
+GROUP BY u.id, u.nome;
+
+-- valor medio das compras por usuário
+SELECT u.id, u.nome, AVG(c.valor) AS valor_medio_compras
+FROM usuario u
+LEFT JOIN compra c ON u.id = c.idUsuario
+GROUP BY u.id, u.nome;
+
+-- Top 2 aplicativos mais populares com base no número de compras:
+SELECT a.nome, COUNT(c.id) AS numero_compras
+FROM aplicativo a
+LEFT JOIN compra c ON a.codapp = c.idApp
+GROUP BY a.codapp, a.nome
+ORDER BY numero_compras DESC
+LIMIT 2;
+
+-- Valor total de compras por categoria de aplicativo:
+SELECT a.categoria, SUM(c.valor) AS valor_total_compras
+FROM compra c
+JOIN aplicativo a ON c.idApp = a.codapp
+GROUP BY a.categoria;
+
+-- Número de compras por mês:
+SELECT DATE_TRUNC('month', data_compra) AS mes, COUNT(*) AS numero_compras
+FROM compra
+GROUP BY mes
+ORDER BY mes;
+
+-- Lista de usuários que compraram pelo menos um aplicativo da categoria "Jogos":
+SELECT nome
+FROM usuario
+WHERE id IN (
+    SELECT idUsuario
+    FROM compra
+    WHERE idApp IN (
+        SELECT codapp
+        FROM aplicativo
+        WHERE categoria = 'Finanças'
+    )
+);
