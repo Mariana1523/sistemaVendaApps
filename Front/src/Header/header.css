@@ -34,6 +34,7 @@ nav {
 .nav-item {
   display: flex;
   margin-right: 20px;
+
 }
 
 .nav-item:last-child {
@@ -53,4 +54,21 @@ nav {
   color: #fff;
   font-weight: 500;
   margin-right: 5%;
+}
+.dashHeader {
+  background-color: green;
+  margin-left: 40px;
+  border-radius: 10px;
+  padding: 8px 18px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dashHeader:hover {
+  background-color: darkgreen;
+
+  
 }

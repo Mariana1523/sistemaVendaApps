@@ -22,13 +22,14 @@ const Header = () => {
               <li className="nav-item">
                 <Link to="/contatos">Entre em Contato</Link>
               </li>
-              <li className="nav-item">
-                <Link to="/Dashboard">Dashboard</Link>
-              </li>
+              
             </ul>
           </div>
 
           <div className="navSpace2">
+          <li className="nav-item dashHeader">
+                <Link to="/Dashboard">Dashboard</Link>
+              </li>
             <span className="username">Olá, {user.nome}</span>
             <button
               className="loggoutButton"

@@ -1,0 +1,52 @@
+.dashboard {
+    display: flex;
+    height: 90vh;
+  }
+  
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .content {
+    text-align: center;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    padding-top: 12%;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #555;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+  }
+  
+  .sidebar li.active {
+    background-color: #4caf50;
+    color: #fff;
+    
+  }
+  
+  .sidebar li:hover {
+    background-color: #e0e0e0;
+  }
+  
+  
