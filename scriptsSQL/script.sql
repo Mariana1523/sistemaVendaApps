@@ -17,7 +17,7 @@ CREATE TABLE aplicativo (
     codapp     SERIAL PRIMARY KEY,
     nome      VARCHAR(255) NOT NULL,
     descricao VARCHAR(255),
-    preco    VARCHAR(255) NOT NULL,
+    valor    NUMERIC(10,2) NOT NULL,
     categoria VARCHAR(255) NOT NULL,
 	imagem varchar(255)
 );
@@ -25,7 +25,7 @@ CREATE TABLE aplicativo (
 INSERT INTO aplicativo 
 VALUES (1, 'Cura e Cia', 
 		'Um aplicativo focado na saúde e bem-estar, oferecendo recursos como monitoramento de atividades físicas, acompanhamento de dieta, lembretes de medicamentos, acesso a dicas de saúde, orientações de exercícios e recursos de meditação.',
-		'R$5.800,00',
+		5800.00,
 		'Saúde e bem-estar',
 		'https://i.ibb.co/fCZk6Mh/saude.png'
 	   );
@@ -33,7 +33,7 @@ VALUES (1, 'Cura e Cia',
 INSERT INTO aplicativo 
 VALUES (2, 'Shopping', 
 		'Um aplicativo que oferece descontos e ofertas especiais em produtos e serviços locais. Os usuários podem encontrar ofertas exclusivas em restaurantes, spas, academias, cinemas e outros estabelecimentos próximos a eles.',
-		'R$7.200,00',
+		7200.00,
 		'Compras coletivas',
 		'https://i.ibb.co/SNGNXLt/vendas.png'
 	   );
@@ -41,7 +41,7 @@ VALUES (2, 'Shopping',
 INSERT INTO aplicativo 
 VALUES (3, 'Panem Finanças', 
 		'Um aplicativo que ajuda os usuários a gerenciarem suas finanças pessoais, fornecendo recursos como rastreamento de despesas, orçamentação, lembretes de contas a pagar, análises de gastos, dicas de economia e investimento.',
-		'R$9.990,00',
+		9990.00,
 		'Finanças',
 		'https://i.ibb.co/c1vLLqb/financas.png'
 	   );
@@ -49,7 +49,7 @@ VALUES (3, 'Panem Finanças',
 INSERT INTO aplicativo 
 VALUES (4, 'Fast Chat', 
 		'Projetado para facilitar a comunicação e a colaboração entre equipes e departamentos dentro de uma empresa. Pode incluir recursos como chat em grupo, compartilhamento de arquivos, gerenciamento de tarefas, calendários compartilhados e videoconferências.',
-		'R$12.300,00',
+		12300.00,
 		'Comunicação empresarial',
 		'https://i.ibb.co/zJ8KB9y/chat.png'
 	   );
@@ -77,7 +77,6 @@ CREATE TABLE compra (
   id SERIAL PRIMARY KEY,
   idUsuario integer,
   idApp integer,
-  valor numeric,
   data_compra date DEFAULT CURRENT_DATE,
   FOREIGN KEY (idUsuario) REFERENCES usuario(id),
   FOREIGN KEY (idApp) REFERENCES aplicativo(codapp)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./Dashboard.css"
 import axios from 'axios';
 // Componente do Dashboard
@@ -11,6 +11,14 @@ export default function Dashpage() {
   const [comprasPorMes, setcomprasPorMes] = useState(0);
   const [usuariosCompraramFinancas, setUsuariosCompraramFinancas] = useState(0);
 
+  useEffect(() => {
+    getUsuariosCompraramFinancas();
+    getComprasPorMes();
+    getAppsMaisVendidos();
+    getValorMedioPorUsuario();
+    getCompras();
+  }, []);
+
 
   function getUsuariosCompraramFinancas() {
     axios
@@ -18,7 +26,7 @@ export default function Dashpage() {
       .then(function (response) {
         // Manipulando a resposta bem-sucedida
         console.log(response.data[0].nome);
-        settotalCompras(response.data[0].nome); // Atualizar o estado com os dados recebidos
+       
     })
       .catch(function (error) {
         // Manipulando erros
@@ -34,8 +42,7 @@ export default function Dashpage() {
         // Manipulando a resposta bem-sucedida
         console.log(response.data[0].mes);
         console.log(response.data[0].numero_compras);
-        settotalCompras(response.data[0].mes); // Atualizar o estado com os dados recebidos
-        settotalCompras(response.data[0].numero_compras); // Atualizar o estado com os dados recebidos
+       
     })
       .catch(function (error) {
         // Manipulando erros
@@ -51,8 +58,7 @@ export default function Dashpage() {
         // Manipulando a resposta bem-sucedida
         console.log(response.data[0].nome);
         console.log(response.data[0].numero_compras);
-        settotalCompras(response.data[0].nome); // Atualizar o estado com os dados recebidos
-        settotalCompras(response.data[0].numero_compras); // Atualizar o estado com os dados recebidos
+
     })
       .catch(function (error) {
         // Manipulando erros
@@ -69,9 +75,7 @@ export default function Dashpage() {
         console.log(response.data[0].id);
         console.log(response.data[0].nome);
         console.log(response.data[0].valor_medio_compras);
-        settotalCompras(response.data[0].id); // Atualizar o estado com os dados recebidos
-        settotalCompras(response.data[0].nome); // Atualizar o estado com os dados recebidos
-        settotalCompras(response.data[0].valor_medio_compras); // Atualizar o estado com os dados recebidos
+    
     })
       .catch(function (error) {
         // Manipulando erros
@@ -88,9 +92,7 @@ export default function Dashpage() {
         console.log(response.data[0].nome_usuario);
         console.log(response.data[0].quantidade_compras);
         console.log(response.data[0].valor_total_compras);
-        settotalCompras(response.data[0].nome_usuario); // Atualizar o estado com os dados recebidos
-        settotalCompras(response.data[0].quantidade_compras); // Atualizar o estado com os dados recebidos
-        settotalCompras(response.data[0].valor_total_compras); // Atualizar o estado com os dados recebidos
+        
       })
       .catch(function (error) {
         // Manipulando erros
@@ -107,7 +109,7 @@ export default function Dashpage() {
         console.log(response.data[0].quantidade_compras);
         console.log(response.data[0].valor_total_compras);
         settotalCompras(response.data[0].quantidade_compras); // Atualizar o estado com os dados recebidos
-        settotalCompras(response.data[0].valor_total_compras); // Atualizar o estado com os dados recebidos
+        setValorTotalCompras(response.data[0].valor_total_compras); // Atualizar o estado com os dados recebidos
 
     })
       .catch(function (error) {
@@ -134,30 +136,24 @@ export default function Dashpage() {
       <div className="main-content">
         {activeContent === 'content1' && (
           <div className="content">
-            <h2>Conteúdo 1</h2>
             <table className="table">
               <thead>
                 <tr>
                   <th>Compras Totais Realizadas</th>
-                  <th>Email</th>
+                  <th>Faturamento</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>{totalCompras}</td>
-                  <td>usuario1@example.com</td>
-                </tr>
-                <tr>
-                  <td>Usuário 2</td>
-                  <td>usuario2@example.com</td>
-                </tr>
+                  <td>{valorTotalCompras}</td>
+                </tr>         
               </tbody>
             </table>
           </div>
         )}
         {activeContent === 'content2' && (
           <div className="content">
-            <h2>Conteúdo 2</h2>
             <table className="table">
               <thead>
                 <tr>
@@ -180,7 +176,6 @@ export default function Dashpage() {
         )}
         {activeContent === 'content3' && (
           <div className="content">
-            <h2>Conteúdo 3</h2>
             <table className="table">
               <thead>
                 <tr>
