@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./Header/header";
-import ContactPage from "./ContactPage/contact";
 import HomePage from "./HomePage/home";
 import ShoppingPage from "./Shopping/shopping";
 import LoginPage from "./LoginPage/loginPage";
@@ -20,7 +19,6 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/contatos" element={<ContactPage></ContactPage>} />
             <Route path="/" element={<HomePage></HomePage>} />
             <Route path="/Dashboard" element={<Dashpage></Dashpage>} />
             <Route path="/shopping" element={<ShoppingPage></ShoppingPage>} />
