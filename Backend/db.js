@@ -47,7 +47,7 @@ app.get("/totalCompras", (req, res) => {
 
 app.get("/comprasPorUsuario", (req, res) => {
   cliente
-    .query("SELECT u.nome AS nome_usuario, COUNT(c.id) AS quantidade_compras, SUM(c.valor) AS valor_total_compras FROM usuario uma LEFT JOIN compra c ON u.id = c.idUsuario GROUP BY u.id, u.nome;")
+    .query("select u.nome, count(c.id)  from usuario u Left join compra c ON u.id = c.idusuario group by u.nome;")
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);

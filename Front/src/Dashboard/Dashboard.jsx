@@ -6,16 +6,21 @@ export default function Dashpage() {
   const [activeContent, setActiveContent] = useState('content1');
   const [totalCompras, settotalCompras] = useState(0);
   const [valorTotalCompras, setValorTotalCompras] = useState(0);
+  const [comprasUsuario, setComprasUsuario]= useState([])
   const [valorMedioPorUsuario, setvalorMedioPorUsuario] = useState(0);
   const [appsMaisVendidos, setAppsMaisVendidos] = useState(0);
   const [comprasPorMes, setcomprasPorMes] = useState(0);
   const [usuariosCompraramFinancas, setUsuariosCompraramFinancas] = useState(0);
+  const [data, setData] = useState('');
 
+
+  const handleInputChange = (event) => {
+    setData(event.target.value);
+  };
   useEffect(() => {
-    getUsuariosCompraramFinancas();
-    getComprasPorMes();
-    getAppsMaisVendidos();
-    getValorMedioPorUsuario();
+  
+    getComprasPorUsuario();
+ 
     getCompras();
   }, []);
 
@@ -40,8 +45,7 @@ export default function Dashpage() {
       .get("http://localhost:3001/comprasPorMes")
       .then(function (response) {
         // Manipulando a resposta bem-sucedida
-        console.log(response.data[0].mes);
-        console.log(response.data[0].numero_compras);
+      
        
     })
       .catch(function (error) {
@@ -83,16 +87,28 @@ export default function Dashpage() {
       });
   }
 
-
+  function pesquisarCompraPorData(){
+    axios
+      .get("http://localhost:3001/comprasPorUsuario")
+      .then(function (response) {
+        // Manipulando a resposta bem-sucedida
+        
+         console.log(response.data)
+         setComprasUsuario(response.data)
+      })
+      .catch(function (error) {
+        // Manipulando erros
+        console.log(error);
+      });
+  }
   function getComprasPorUsuario() {
     axios
       .get("http://localhost:3001/comprasPorUsuario")
       .then(function (response) {
         // Manipulando a resposta bem-sucedida
-        console.log(response.data[0].nome_usuario);
-        console.log(response.data[0].quantidade_compras);
-        console.log(response.data[0].valor_total_compras);
         
+         console.log(response.data)
+         setComprasUsuario(response.data)
       })
       .catch(function (error) {
         // Manipulando erros
@@ -108,8 +124,8 @@ export default function Dashpage() {
         // Manipulando a resposta bem-sucedida
         console.log(response.data[0].quantidade_compras);
         console.log(response.data[0].valor_total_compras);
-        settotalCompras(response.data[0].quantidade_compras); // Atualizar o estado com os dados recebidos
-        setValorTotalCompras(response.data[0].valor_total_compras); // Atualizar o estado com os dados recebidos
+        settotalCompras(response.data[0].count); // Atualizar o estado com os dados recebidos
+        setValorTotalCompras(response.data[0].sum); // Atualizar o estado com os dados recebidos
 
     })
       .catch(function (error) {
@@ -122,14 +138,17 @@ export default function Dashpage() {
     setActiveContent(content);
     getCompras()
   };
+  function renderDadosApps(){
 
+
+  }
   return (
     <div className="dashboard">
       <div className="sidebar">
         <ul>
           <li onClick={() => handleItemClick('content1')}>Faturamento</li>
           <li onClick={() => handleItemClick('content2')}>Dados de Clientes</li>
-          <li onClick={() => handleItemClick('content3')}>Conteúdo 3</li>
+          <li onClick={() => handleItemClick('content3')}>Dados de Aplicativos</li>
         </ul>
       </div>
 
@@ -157,25 +176,33 @@ export default function Dashpage() {
             <table className="table">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Descrição</th>
+                  <th>Nome</th>
+                  <th>Aplicativos Comprados</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Item 1</td>
+              {comprasUsuario.map((usuario) => (
+                <tr key={usuario.nome}>
+                  <td>{usuario.nome}</td>
+                  <td>{usuario.count}</td>
                 </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Item 2</td>
-                </tr>
+              ))}
+              
               </tbody>
             </table>
           </div>
         )}
         {activeContent === 'content3' && (
+          
           <div className="content">
+            <h2>Compras por Data</h2>
+            <div className='filtroData'>
+              <label>
+                Data  - 
+                <input type="date" value={data} onChange={handleInputChange} />
+              </label>
+              <button onClick={()=>pesquisarCompraPorData()} >Pesquisar</button>
+            </div>
             <table className="table">
               <thead>
                 <tr>
