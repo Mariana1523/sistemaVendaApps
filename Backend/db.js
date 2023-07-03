@@ -9,7 +9,7 @@ const port = 3001;
 
 const cliente = new Client({
   user: "postgres",
-  password: "admin_pr",
+  password: "2002",
   host: "127.0.0.1",
   port: 5432,
   database: "Sistema",
@@ -149,19 +149,33 @@ app.post("/criaUsuario", (req, res) => {
     });
 });
 
-
-
-
-
-app.post("/salvaContato", (req, res) => {
-  const { nome, sobrenome, email, celular, mensagem } = req.body; // Supondo que você esteja enviando os dados do usuário no corpo da requisição
-  const query =
-    "INSERT INTO contato (nome, sobrenome, email, celular, mensagem) VALUES ($1, $2, $3, $4, $5)";
+app.post("/editUser", (req, res) => {
+  const { nome, email, senha } = req.body; 
+  const query = "UPDATE usuario SET email = $2, senha = $3 WHERE nome = $1";
 
   cliente
-    .query(query, [nome, sobrenome, email, celular, mensagem])
+    .query(query, [nome, email, senha])
     .then(() => {
-      res.status(201).send("Contato salvo com sucesso");
+      res.status(201).send("Usuário alterado com sucesso");
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+app.post("/excluiUser", (req, res) => {
+  const { nome, deleteAll } = req.body;
+  let query = "";
+  if (deleteAll) {
+    query = "DELETE FROM usuario WHERE nome = $1";
+  } else {
+    return res.status(400).send("Parâmetro deleteAll precisa ser true");
+  }
+  cliente
+    .query(query, [nome])
+    .then(() => {
+      res.status(201).send("Usuário excluído com sucesso");
     })
     .catch((error) => {
       console.error(error);
@@ -200,3 +214,37 @@ app.get("/aplicativos", (req, res) => {
     }
   });
 });
+
+app.post("/insereAplicativos", (req, res) => {
+  const {nome, descricao, valor, categoria, imagem } = req.body; // Supondo que você esteja enviando os dados do usuário no corpo da requisição
+  
+  const query =
+    "INSERT INTO aplicativo (nome, descricao, valor, categoria, imagem) VALUES ($1, $2, $3, $4, $5)";
+
+  cliente
+    .query(query, [nome, descricao, valor, categoria, imagem])
+    .then(() => {
+      res.status(201).send("Aplicativo Inserido Com Sucesso");
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+app.post("/editAplicativos", (req, res) => {
+  const { codapp, nome, descricao, valor, categoria, imagem } = req.body; 
+  const query = "UPDATE aplicativo SET nome = $2, descricao = $3, valor = $4, categoria = $5, imagem = $6 WHERE codapp = $1";
+
+  cliente
+    .query(query, [codapp, nome, descricao, valor, categoria, imagem])
+    .then(() => {
+      res.status(201).send("Aplicativo alterado com sucesso");
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
+
+
