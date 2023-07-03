@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import "./Dashboard.css"
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import "./Dashboard.css";
+import axios from "axios";
 // Componente do Dashboard
 export default function Dashpage() {
-  const [activeContent, setActiveContent] = useState('content1');
+  const [activeContent, setActiveContent] = useState("content1");
   const [totalCompras, settotalCompras] = useState(0);
   const [valorTotalCompras, setValorTotalCompras] = useState(0);
-  const [comprasUsuario, setComprasUsuario]= useState([])
+  const [comprasUsuario, setComprasUsuario] = useState([]);
+  const [appMaisVendido, setAppMaisVendido] = useState([]);
+  const [qtdAppMaisVendido, setQtdAppMaisVendido] = useState([]);
   const [valorMedioPorUsuario, setvalorMedioPorUsuario] = useState(0);
   const [appsMaisVendidos, setAppsMaisVendidos] = useState(0);
   const [comprasPorMes, setcomprasPorMes] = useState(0);
   const [usuariosCompraramFinancas, setUsuariosCompraramFinancas] = useState(0);
-  const [data, setData] = useState('');
-
+  const [data, setData] = useState("");
 
   const handleInputChange = (event) => {
     setData(event.target.value);
   };
   useEffect(() => {
-  
     getComprasPorUsuario();
- 
+
     getCompras();
   }, []);
-
 
   function getUsuariosCompraramFinancas() {
     axios
@@ -31,29 +30,24 @@ export default function Dashpage() {
       .then(function (response) {
         // Manipulando a resposta bem-sucedida
         console.log(response.data[0].nome);
-       
-    })
+      })
       .catch(function (error) {
         // Manipulando erros
         console.log(error);
       });
   }
-
 
   function getComprasPorMes() {
     axios
       .get("http://localhost:3001/comprasPorMes")
       .then(function (response) {
         // Manipulando a resposta bem-sucedida
-      
-       
-    })
+      })
       .catch(function (error) {
         // Manipulando erros
         console.log(error);
       });
   }
-
 
   function getAppsMaisVendidos() {
     axios
@@ -62,14 +56,12 @@ export default function Dashpage() {
         // Manipulando a resposta bem-sucedida
         console.log(response.data[0].nome);
         console.log(response.data[0].numero_compras);
-
-    })
+      })
       .catch(function (error) {
         // Manipulando erros
         console.log(error);
       });
   }
-
 
   function getValorMedioPorUsuario() {
     axios
@@ -79,43 +71,42 @@ export default function Dashpage() {
         console.log(response.data[0].id);
         console.log(response.data[0].nome);
         console.log(response.data[0].valor_medio_compras);
-    
-    })
+      })
       .catch(function (error) {
         // Manipulando erros
         console.log(error);
       });
   }
 
-  function pesquisarCompraPorData(){
+  function pesquisarCompraPorData(date) {
     axios
-      .get("http://localhost:3001/comprasPorUsuario")
+      .get(`http://localhost:3001/comprasPorData?date=${date}`)
       .then(function (response) {
         // Manipulando a resposta bem-sucedida
-        
-         console.log(response.data)
-         setComprasUsuario(response.data)
+        console.log(response.data.nome);
+        setAppMaisVendido(response.data.nome);
+        setQtdAppMaisVendido(response.data.total_vendas);
       })
       .catch(function (error) {
         // Manipulando erros
         console.log(error);
       });
   }
+
   function getComprasPorUsuario() {
     axios
       .get("http://localhost:3001/comprasPorUsuario")
       .then(function (response) {
         // Manipulando a resposta bem-sucedida
-        
-         console.log(response.data)
-         setComprasUsuario(response.data)
+
+        console.log(response.data);
+        setComprasUsuario(response.data);
       })
       .catch(function (error) {
         // Manipulando erros
         console.log(error);
       });
   }
-  
 
   function getCompras() {
     axios
@@ -126,8 +117,7 @@ export default function Dashpage() {
         console.log(response.data[0].valor_total_compras);
         settotalCompras(response.data[0].count); // Atualizar o estado com os dados recebidos
         setValorTotalCompras(response.data[0].sum); // Atualizar o estado com os dados recebidos
-
-    })
+      })
       .catch(function (error) {
         // Manipulando erros
         console.log(error);
@@ -136,24 +126,23 @@ export default function Dashpage() {
 
   const handleItemClick = (content) => {
     setActiveContent(content);
-    getCompras()
+    getCompras();
   };
-  function renderDadosApps(){
-
-
-  }
+  function renderDadosApps() {}
   return (
     <div className="dashboard">
       <div className="sidebar">
         <ul>
-          <li onClick={() => handleItemClick('content1')}>Faturamento</li>
-          <li onClick={() => handleItemClick('content2')}>Dados de Clientes</li>
-          <li onClick={() => handleItemClick('content3')}>Dados de Aplicativos</li>
+          <li onClick={() => handleItemClick("content1")}>Faturamento</li>
+          <li onClick={() => handleItemClick("content2")}>Dados de Clientes</li>
+          <li onClick={() => handleItemClick("content3")}>
+            Dados de Aplicativos
+          </li>
         </ul>
       </div>
 
       <div className="main-content">
-        {activeContent === 'content1' && (
+        {activeContent === "content1" && (
           <div className="content">
             <table className="table">
               <thead>
@@ -166,12 +155,12 @@ export default function Dashpage() {
                 <tr>
                   <td>{totalCompras}</td>
                   <td>{valorTotalCompras}</td>
-                </tr>         
+                </tr>
               </tbody>
             </table>
           </div>
         )}
-        {activeContent === 'content2' && (
+        {activeContent === "content2" && (
           <div className="content">
             <table className="table">
               <thead>
@@ -181,52 +170,50 @@ export default function Dashpage() {
                 </tr>
               </thead>
               <tbody>
-              {comprasUsuario.map((usuario) => (
-                <tr key={usuario.nome}>
-                  <td>{usuario.nome}</td>
-                  <td>{usuario.count}</td>
-                </tr>
-              ))}
-              
+                {comprasUsuario.map((usuario) => (
+                  <tr key={usuario.nome}>
+                    <td>{usuario.nome}</td>
+                    <td>{usuario.count}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         )}
-        {activeContent === 'content3' && (
-          
+        {activeContent === "content3" && (
           <div className="content">
             <h2>Compras por Data</h2>
-            <div className='filtroData'>
+            <div className="filtroData">
               <label>
-                Data  - 
+                Data -
                 <input type="date" value={data} onChange={handleInputChange} />
               </label>
-              <button onClick={()=>pesquisarCompraPorData()} >Pesquisar</button>
+              <button
+                onClick={() => {
+                  pesquisarCompraPorData(data);
+                  console.log("Button clicked" + data);
+                }}
+              >
+                Pesquisar
+              </button>
             </div>
             <table className="table">
               <thead>
                 <tr>
-                  <th>Código</th>
+                  <th>Nome do Aplicativo</th>
                   <th>Quantidade</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>123</td>
-                  <td>10</td>
-                </tr>
-                <tr>
-                  <td>456</td>
-                  <td>5</td>
+                  <td>{appMaisVendido}</td>
+                  <td>{qtdAppMaisVendido}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         )}
       </div>
-
     </div>
   );
 }
-
-

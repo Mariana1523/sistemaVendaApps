@@ -30,24 +30,26 @@ app.get("/usuarios", (req, res) => {
     });
 });
 
-
 app.get("/totalCompras", (req, res) => {
   cliente
-    .query("SELECT count(*), SUM(valor) FROM compra C inner join aplicativo A ON A.codapp = c.idapp;")
+    .query(
+      "SELECT count(*), SUM(preco) FROM compra C inner join aplicativo A ON A.codapp = c.idapp;"
+    )
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).send("Erro interno do servidor");
+      res.status(500).send(error + "Erro interno do servidor");
     });
 });
 
-
 app.get("/comprasPorUsuario", (req, res) => {
   cliente
-    .query("select u.nome, count(c.id)  from usuario u Left join compra c ON u.id = c.idusuario group by u.nome;")
+    .query(
+      "select u.nome, count(c.id)  from usuario u Left join compra c ON u.id = c.idusuario group by u.nome;"
+    )
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);
@@ -60,7 +62,9 @@ app.get("/comprasPorUsuario", (req, res) => {
 
 app.get("/valorMedioPorUsuario", (req, res) => {
   cliente
-    .query("SELECT u.id, u.nome, AVG(c.valor) AS valor_medio_compras FROM usuario u LEFT JOIN compra c ON u.id = c.idUsuario sGROUP BY u.id, u.nome;")
+    .query(
+      "SELECT u.id, u.nome, AVG(c.valor) AS valor_medio_compras FROM usuario u LEFT JOIN compra c ON u.id = c.idUsuario sGROUP BY u.id, u.nome;"
+    )
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);
@@ -70,11 +74,12 @@ app.get("/valorMedioPorUsuario", (req, res) => {
       res.status(500).send("Erro interno do servidor");
     });
 });
-
 
 app.get("/appsMaisVendidos", (req, res) => {
   cliente
-    .query("SELECT a.nome, COUNT(c.id) AS numero_compras FROM aplicativo a LEFT JOIN compra c ON a.codapp = c.idApp GROUP BY a.codapp, a.nome ORDER BY numero_compras DESC LIMIT 2;")
+    .query(
+      "SELECT a.nome, COUNT(c.id) AS numero_compras FROM aplicativo a LEFT JOIN compra c ON a.codapp = c.idApp GROUP BY a.codapp, a.nome ORDER BY numero_compras DESC LIMIT 2;"
+    )
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);
@@ -84,11 +89,12 @@ app.get("/appsMaisVendidos", (req, res) => {
       res.status(500).send("Erro interno do servidor");
     });
 });
-
 
 app.get("/comprasPorMes", (req, res) => {
   cliente
-    .query("SELECT DATE_TRUNC('month', data_compra) AS mes, COUNT(*) AS numero_compras FROM compra GROUP BY mes ORDER BY mes;")
+    .query(
+      "SELECT DATE_TRUNC('month', data_compra) AS mes, COUNT(*) AS numero_compras FROM compra GROUP BY mes ORDER BY mes;"
+    )
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);
@@ -99,10 +105,11 @@ app.get("/comprasPorMes", (req, res) => {
     });
 });
 
-
 app.get("/usuariosCompraramFinancas", (req, res) => {
   cliente
-    .query("SELECT nome FROM usuario WHERE id IN ( SELECT idUsuario FROM compra WHERE idApp IN ( SELECT codapp FROM aplicativo WHERE categoria = 'Finanças');")
+    .query(
+      "SELECT nome FROM usuario WHERE id IN ( SELECT idUsuario FROM compra WHERE idApp IN ( SELECT codapp FROM aplicativo WHERE categoria = 'Finanças');"
+    )
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);
@@ -150,7 +157,7 @@ app.post("/criaUsuario", (req, res) => {
 });
 
 app.post("/editUser", (req, res) => {
-  const { nome, email, senha } = req.body; 
+  const { nome, email, senha } = req.body;
   const query = "UPDATE usuario SET email = $2, senha = $3 WHERE nome = $1";
 
   cliente
@@ -186,7 +193,7 @@ app.post("/excluiUser", (req, res) => {
 app.post("/salvaCompra", (req, res) => {
   const { idUser, idApp } = req.body;
   const query = "INSERT INTO compra (idusuario, idapp) VALUES ($1, $2)";
- 
+
   cliente
     .query(query, [idUser, idApp])
     .then(() => {
@@ -216,8 +223,8 @@ app.get("/aplicativos", (req, res) => {
 });
 
 app.post("/insereAplicativos", (req, res) => {
-  const {nome, descricao, valor, categoria, imagem } = req.body; // Supondo que você esteja enviando os dados do usuário no corpo da requisição
-  
+  const { nome, descricao, valor, categoria, imagem } = req.body; // Supondo que você esteja enviando os dados do usuário no corpo da requisição
+
   const query =
     "INSERT INTO aplicativo (nome, descricao, valor, categoria, imagem) VALUES ($1, $2, $3, $4, $5)";
 
@@ -233,8 +240,9 @@ app.post("/insereAplicativos", (req, res) => {
 });
 
 app.post("/editAplicativos", (req, res) => {
-  const { codapp, nome, descricao, valor, categoria, imagem } = req.body; 
-  const query = "UPDATE aplicativo SET nome = $2, descricao = $3, valor = $4, categoria = $5, imagem = $6 WHERE codapp = $1";
+  const { codapp, nome, descricao, valor, categoria, imagem } = req.body;
+  const query =
+    "UPDATE aplicativo SET nome = $2, descricao = $3, valor = $4, categoria = $5, imagem = $6 WHERE codapp = $1";
 
   cliente
     .query(query, [codapp, nome, descricao, valor, categoria, imagem])
@@ -247,4 +255,22 @@ app.post("/editAplicativos", (req, res) => {
     });
 });
 
-
+app.get("/comprasPorData", (req, res) => {
+  const { date } = req.query;
+  const query =
+    "SELECT a.nome, COUNT(*) AS total_vendas FROM compra c JOIN aplicativo a ON c.idapp = a.codapp GROUP BY a.nome HAVING COUNT(*) = ( SELECT MAX(total_vendas) FROM ( SELECT COUNT(*) AS total_vendas FROM compra WHERE data_compra >= $1 GROUP BY idapp  ) AS subquery );";
+  cliente
+    .query(query, [date])
+    .then((results) => {
+      const usuario = results.rows[0]; // Pega o primeiro usuário retornado (se houver)
+      if (usuario) {
+        res.status(200).json(usuario); // Retorna o objeto do usuário encontrado como resposta JSON
+      } else {
+        res.status(201).send("Usuário não encontrado");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
