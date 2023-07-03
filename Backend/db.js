@@ -9,7 +9,7 @@ const port = 3001;
 
 const cliente = new Client({
   user: "postgres",
-  password: "2002",
+  password: "admin_pr",
   host: "127.0.0.1",
   port: 5432,
   database: "Sistema",
@@ -33,7 +33,7 @@ app.get("/usuarios", (req, res) => {
 
 app.get("/totalCompras", (req, res) => {
   cliente
-    .query("SELECT count(*), SUM(valor) FROM compra C inner join aplicativo A ON A.codapp = c.idapp;")
+    .query("select * from Faturamento;")
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);

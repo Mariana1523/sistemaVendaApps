@@ -124,8 +124,8 @@ export default function Dashpage() {
         // Manipulando a resposta bem-sucedida
         console.log(response.data[0].quantidade_compras);
         console.log(response.data[0].valor_total_compras);
-        settotalCompras(response.data[0].count); // Atualizar o estado com os dados recebidos
-        setValorTotalCompras(response.data[0].sum); // Atualizar o estado com os dados recebidos
+        settotalCompras(response.data[0].totalcompras); // Atualizar o estado com os dados recebidos
+        setValorTotalCompras(response.data[0].receita); // Atualizar o estado com os dados recebidos
 
     })
       .catch(function (error) {
