@@ -32,9 +32,8 @@ app.get("/usuarios", (req, res) => {
 
 app.get("/totalCompras", (req, res) => {
   cliente
-    .query(
-      "SELECT count(*), SUM(preco) FROM compra C inner join aplicativo A ON A.codapp = c.idapp;"
-    )
+
+    .query("select * from Faturamento;")
     .then((results) => {
       const resultado = results.rows;
       res.send(resultado);
