@@ -69,3 +69,23 @@ CREATE OR REPLACE TRIGGER aplicativo_modificado
 AFTER UPDATE ON aplicativo
 FOR EACH ROW
 EXECUTE FUNCTION registrar_modificacao_aplicativo();
+
+
+-- Criação do trigger que atualiza o atributo 'aprovada' da compra
+CREATE OR REPLACE FUNCTION aprovar_compra()
+  RETURNS TRIGGER AS $$
+BEGIN
+  -- Atualiza o atributo 'aprovada' para true
+  -- No caso, não foi feita a parte de inserção de dados de pagamento
+  -- Esse trigger, na vida real, serviria para receber a aprovação da api do método de pagamento para aprovar a compra.
+  -- Lembrando que, na vida real, compras não aprovadas também são registradas no histórico de compras
+  NEW.aprovada := true;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER compra_aprovada
+BEFORE INSERT ON compra
+FOR EACH ROW
+EXECUTE FUNCTION aprovar_compra();
