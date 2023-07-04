@@ -15,6 +15,7 @@ export default function Dashpage() {
   const [comprasPorMes, setcomprasPorMes] = useState(0);
   const [usuariosCompraramFinancas, setUsuariosCompraramFinancas] = useState(0);
   const [data, setData] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
   const { user } = useContext(AuthContext);
 
   const handleInputChange = (event) => {
@@ -22,7 +23,7 @@ export default function Dashpage() {
   };
   useEffect(() => {
     getComprasPorUsuario();
-
+    getUsuarios();
     getCompras();
   }, []);
 
@@ -73,6 +74,20 @@ export default function Dashpage() {
         console.log(response.data[0].id);
         console.log(response.data[0].nome);
         console.log(response.data[0].valor_medio_compras);
+      })
+      .catch(function (error) {
+        // Manipulando erros
+        console.log(error);
+      });
+  }
+
+  function getUsuarios() {
+    axios
+      .get("http://localhost:3001/usuarios")
+      .then(function (response) {
+        // Manipulando a resposta bem-sucedida
+        console.log(response.data);
+        setUsuarios(response.data);
       })
       .catch(function (error) {
         // Manipulando erros
@@ -191,10 +206,12 @@ export default function Dashpage() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>{user.nome}</td>
-                    <td>{user.totalCompras}</td>
-                  </tr>
+                  {usuarios.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.nome}</td>
+                      <td>{user.totalcompras}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
