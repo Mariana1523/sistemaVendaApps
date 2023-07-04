@@ -217,16 +217,15 @@ export default function Header(){
             </div>
           
           </div>
-          <div className="navSpace">
-            <ul className="nav-list nav-list flex justify-center items-center h-full">
-              <li className="nav-item">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/shopping">Catálogo</Link>
-              </li>
-              
-            </ul>
+          <div className="navSpace" >
+              <ul className="nav-list">
+                <li className="nav-item">
+                  <Link to="/">Home</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/shopping">Catálogo</Link>
+                </li>               
+              </ul>
           </div>
 
           <div className="navSpace2">

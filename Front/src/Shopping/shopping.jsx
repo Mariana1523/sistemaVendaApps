@@ -146,6 +146,7 @@ export default function ShoppingPage() {
 
 
   function renderPopUp() {
+    console.log("Use: "+ user.isadmin);
     if (isPopupOpen && selectedProduct && !editProduct) {
       return (
         <div className="fixed inset-0 flex items-center justify-center">
@@ -224,16 +225,19 @@ export default function ShoppingPage() {
                               >
                                 
                                 {selectedProduct.descricao}
-                                <button
-                                  onClick={() => {
-                                    setPopupOpen(false)
-                                    realizarCompra(user.id, selectedProduct.codapp)
-                                    
-                                  }}
-                                  className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >
-                                  Comprar
-                                </button>
+                                {!user.isadmin && (
+                                     <button
+                                     onClick={() => {
+                                       setPopupOpen(false)
+                                       realizarCompra(user.id, selectedProduct.codapp)
+                                       
+                                     }}
+                                     className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                   >
+                                     Comprar
+                                   </button>
+                                )}
+                               
                               </section>
                             </div>
                           </div>
@@ -461,12 +465,13 @@ export default function ShoppingPage() {
                 <p className="text-sm font-medium text-gray-900">
                   {product.preco}
                 </p>
-                <button onClick={() => {
+                {user.isadmin && (<button onClick={() => {
                   setEdition(true);
                   setSelectedProduct(product);
                 }}>
                   Configurações
-                </button>
+                </button>)}
+                
               </div>
             </div>
           ))}

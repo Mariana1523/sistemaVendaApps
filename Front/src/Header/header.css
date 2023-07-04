@@ -10,7 +10,9 @@ nav {
 .navSpace {
   width: 50%;
   display: flex;
-  justify-content: flex-end;
+  align-self: center;
+  padding-right: 15%;
+  justify-content: flex-center;
 }
 .navSpace2 {
   width: 50%;
@@ -26,7 +28,7 @@ nav {
 
 .configButton {
   color: white;
-  background-color: #01330e; 
+  background-color: green; 
   border-radius: 30px;
 }
 

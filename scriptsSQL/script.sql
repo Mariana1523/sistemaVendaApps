@@ -17,7 +17,7 @@ CREATE TABLE aplicativo (
     codapp     SERIAL PRIMARY KEY,
     nome      VARCHAR(255) NOT NULL,
     descricao VARCHAR(255),
-    valor    NUMERIC(10,2) NOT NULL,
+    preco    NUMERIC(10,2) NOT NULL,
     categoria VARCHAR(255) NOT NULL,
 	imagem varchar(255)
 );
