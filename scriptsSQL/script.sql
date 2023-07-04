@@ -141,24 +141,7 @@ CREATE TABLE Faturamento (
 
 
 
--- Criação da função para atualizar os valores de Faturamento
-CREATE OR REPLACE FUNCTION atualizar_faturamento()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE Faturamento
-    SET TotalCompras = (SELECT COUNT(*) FROM compra),
-        Receita = (SELECT SUM(A.valor) as Receita  FROM compra C inner join aplicativo A ON A.codapp = c.idapp);
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
 
--- Criação do trigger para atualizar Faturamento
-CREATE TRIGGER trigger_atualizar_faturamento
-AFTER INSERT ON compra
-FOR EACH ROW
-EXECUTE FUNCTION atualizar_faturamento();
-
-ALTER TABLE usuario ADD totalCompras float DEFAULT 0;
 
 
 update usuario
