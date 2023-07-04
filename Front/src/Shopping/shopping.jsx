@@ -215,7 +215,7 @@ export default function ShoppingPage() {
                                 </h3>
 
                                 <p className="text-2xl text-gray-900">
-                                  {selectedProduct.preco}
+                                  {selectedProduct.valor}
                                 </p>
                               </section>
 
@@ -463,7 +463,7 @@ export default function ShoppingPage() {
                   </h3>
                 </div>
                 <p className="text-sm font-medium text-gray-900">
-                  {product.preco}
+                  {product.valor}
                 </p>
                 {user.isadmin && (<button onClick={() => {
                   setEdition(true);
