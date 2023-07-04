@@ -9,7 +9,7 @@ const port = 3001;
 
 const cliente = new Client({
   user: "postgres",
-  password: "2002",
+  password: "123",
   host: "127.0.0.1",
   port: 5432,
   database: "Sistema",

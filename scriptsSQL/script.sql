@@ -157,3 +157,26 @@ CREATE TRIGGER trigger_atualizar_faturamento
 AFTER INSERT ON compra
 FOR EACH ROW
 EXECUTE FUNCTION atualizar_faturamento();
+
+-- criar tabela auditoria com id, id_usuario e data_alteracao, sempre que alterar algum dado na tabela usuario
+CREATE TABLE auditoria (
+  id SERIAL PRIMARY KEY,
+  id_usuario INTEGER,
+  data_modificacao TIMESTAMP
+);
+
+CREATE OR REPLACE FUNCTION registrar_modificacao()
+  RETURNS TRIGGER AS $$
+BEGIN
+  -- Insere um novo registro na tabela de auditoria
+  INSERT INTO auditoria (id, id_usuario, data_modificacao)
+  VALUES (DEFAULT, NEW.id, now());
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER usuario_modificado
+AFTER UPDATE ON usuario
+FOR EACH ROW
+EXECUTE FUNCTION registrar_modificacao();
