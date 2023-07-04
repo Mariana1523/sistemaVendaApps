@@ -33,26 +33,23 @@ VALUES (1, 'Cura e Cia',
 INSERT INTO aplicativo 
 VALUES (2, 'Shopping', 
 		'Um aplicativo que oferece descontos e ofertas especiais em produtos e serviços locais. Os usuários podem encontrar ofertas exclusivas em restaurantes, spas, academias, cinemas e outros estabelecimentos próximos a eles.',
-		7200.00,
+		 7200.00,
 		'Compras coletivas',
-		'https://i.ibb.co/SNGNXLt/vendas.png'
-	   );
+		'https://i.ibb.co/SNGNXLt/vendas.png');
 	   
 INSERT INTO aplicativo 
 VALUES (3, 'Panem Finanças', 
 		'Um aplicativo que ajuda os usuários a gerenciarem suas finanças pessoais, fornecendo recursos como rastreamento de despesas, orçamentação, lembretes de contas a pagar, análises de gastos, dicas de economia e investimento.',
 		9990.00,
 		'Finanças',
-		'https://i.ibb.co/c1vLLqb/financas.png'
-	   );
+		'https://i.ibb.co/c1vLLqb/financas.png');
 	   
 INSERT INTO aplicativo 
 VALUES (4, 'Fast Chat', 
 		'Projetado para facilitar a comunicação e a colaboração entre equipes e departamentos dentro de uma empresa. Pode incluir recursos como chat em grupo, compartilhamento de arquivos, gerenciamento de tarefas, calendários compartilhados e videoconferências.',
 		12300.00,
 		'Comunicação empresarial',
-		'https://i.ibb.co/zJ8KB9y/chat.png'
-	   );
+		'https://i.ibb.co/zJ8KB9y/chat.png');
 
 select * from usuario;
 select * from aplicativo;
@@ -134,3 +131,29 @@ WHERE id IN (
         WHERE categoria = 'Finanças'
     )
 );
+
+
+CREATE TABLE Faturamento (
+    id SERIAL PRIMARY KEY,
+    TotalCompras INT,
+    Receita DECIMAL(10, 2)
+);
+
+
+
+-- Criação da função para atualizar os valores de Faturamento
+CREATE OR REPLACE FUNCTION atualizar_faturamento()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE Faturamento
+    SET TotalCompras = (SELECT COUNT(*) FROM compra),
+        Receita = (SELECT SUM(A.valor) as Receita  FROM compra C inner join aplicativo A ON A.codapp = c.idapp);
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Criação do trigger para atualizar Faturamento
+CREATE TRIGGER trigger_atualizar_faturamento
+AFTER INSERT ON compra
+FOR EACH ROW
+EXECUTE FUNCTION atualizar_faturamento();
