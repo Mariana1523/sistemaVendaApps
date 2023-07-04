@@ -10,7 +10,9 @@ nav {
 .navSpace {
   width: 50%;
   display: flex;
-  justify-content: flex-end;
+  align-self: center;
+  padding-right: 15%;
+  justify-content: flex-center;
 }
 .navSpace2 {
   width: 50%;
@@ -23,6 +25,13 @@ nav {
   color: white;
   border-radius: 30px;
 }
+
+.configButton {
+  color: white;
+  background-color: green; 
+  border-radius: 30px;
+}
+
 .nav-list {
   list-style-type: none;
   display: flex;
@@ -69,6 +78,9 @@ nav {
 
 .dashHeader:hover {
   background-color: darkgreen;
+}
 
-  
+.container {
+  display: flex;
+  justify-content: flex-start;
 }

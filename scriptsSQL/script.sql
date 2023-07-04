@@ -17,7 +17,7 @@ CREATE TABLE aplicativo (
     codapp     SERIAL PRIMARY KEY,
     nome      VARCHAR(255) NOT NULL,
     descricao VARCHAR(255),
-    valor    NUMERIC(10,2) NOT NULL,
+    preco    NUMERIC(10,2) NOT NULL,
     categoria VARCHAR(255) NOT NULL,
 	imagem varchar(255)
 );
@@ -75,8 +75,8 @@ CREATE TABLE compra (
   idUsuario integer,
   idApp integer,
   data_compra date DEFAULT CURRENT_DATE,
-  FOREIGN KEY (idUsuario) REFERENCES usuario(id),
-  FOREIGN KEY (idApp) REFERENCES aplicativo(codapp)
+  FOREIGN KEY (idUsuario) REFERENCES usuario(id) ON DELETE CASCADE,
+  FOREIGN KEY (idApp) REFERENCES aplicativo(codapp) ON DELETE CASCADE
 );
 
 -- pesquisas no banco de dados
@@ -191,3 +191,25 @@ EXECUTE FUNCTION atualizar_totalCompras();
 
 
 -- Criação da função para atualizar os valores de Faturamento
+-- criar tabela auditoria com id, id_usuario e data_alteracao, sempre que alterar algum dado na tabela usuario
+CREATE TABLE auditoria (
+  id SERIAL PRIMARY KEY,
+  id_usuario INTEGER,
+  data_modificacao TIMESTAMP
+);
+
+CREATE OR REPLACE FUNCTION registrar_modificacao()
+  RETURNS TRIGGER AS $$
+BEGIN
+  -- Insere um novo registro na tabela de auditoria
+  INSERT INTO auditoria (id, id_usuario, data_modificacao)
+  VALUES (DEFAULT, NEW.id, now());
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER usuario_modificado
+AFTER UPDATE ON usuario
+FOR EACH ROW
+EXECUTE FUNCTION registrar_modificacao();
