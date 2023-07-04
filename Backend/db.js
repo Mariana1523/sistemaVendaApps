@@ -167,6 +167,7 @@ app.post("/editUser", (req, res) => {
 app.post("/excluiUser", (req, res) => {
   const { nome, deleteAll } = req.body;
   let query = "";
+  console.log(deleteAll)
   if (deleteAll) {
     query = "DELETE FROM usuario WHERE nome = $1";
   } else {
@@ -247,4 +248,22 @@ app.post("/editAplicativos", (req, res) => {
     });
 });
 
+app.post("/excluiApp", (req, res) => {
+  const { codapp, deleteAll } = req.body;
+  let query = "";
+  if (deleteAll) {
+    query = "DELETE FROM aplicativo WHERE codapp = $1";
+  } else {
+    return res.status(400).send("Parâmetro deleteAll precisa ser true");
+  }
+  cliente
+    .query(query, [codapp])
+    .then(() => {
+      res.status(201).send("Aplicativo excluído com sucesso");
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Erro interno do servidor");
+    });
+});
 

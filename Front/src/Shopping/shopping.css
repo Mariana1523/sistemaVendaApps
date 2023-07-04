@@ -9,3 +9,8 @@ h4{
     margin-bottom: 7px;
     
 }
+
+.botoes{
+    display: flex;
+    flex-direction: row;
+}

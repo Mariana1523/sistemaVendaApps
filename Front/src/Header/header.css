@@ -23,6 +23,13 @@ nav {
   color: white;
   border-radius: 30px;
 }
+
+.configButton {
+  color: white;
+  background-color: #01330e; 
+  border-radius: 30px;
+}
+
 .nav-list {
   list-style-type: none;
   display: flex;
@@ -69,6 +76,9 @@ nav {
 
 .dashHeader:hover {
   background-color: darkgreen;
+}
 
-  
+.container {
+  display: flex;
+  justify-content: flex-start;
 }

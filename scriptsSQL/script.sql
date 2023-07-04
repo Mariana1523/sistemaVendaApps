@@ -78,8 +78,8 @@ CREATE TABLE compra (
   idUsuario integer,
   idApp integer,
   data_compra date DEFAULT CURRENT_DATE,
-  FOREIGN KEY (idUsuario) REFERENCES usuario(id),
-  FOREIGN KEY (idApp) REFERENCES aplicativo(codapp)
+  FOREIGN KEY (idUsuario) REFERENCES usuario(id) ON DELETE CASCADE,
+  FOREIGN KEY (idApp) REFERENCES aplicativo(codapp) ON DELETE CASCADE
 );
 
 -- pesquisas no banco de dados
