@@ -38,3 +38,8 @@ CREATE TABLE auditoria (
   id_usuario INTEGER,
   data_modificacao TIMESTAMP
 );
+CREATE TABLE auditoria_aplicativo (
+  id SERIAL PRIMARY KEY,
+  id_aplicativo INTEGER,
+  data_modificacao TIMESTAMP
+);
