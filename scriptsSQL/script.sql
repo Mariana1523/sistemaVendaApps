@@ -180,3 +180,31 @@ CREATE TRIGGER usuario_modificado
 AFTER UPDATE ON usuario
 FOR EACH ROW
 EXECUTE FUNCTION registrar_modificacao();
+
+
+
+CREATE TABLE auditoria_aplicativo (
+  id SERIAL PRIMARY KEY,
+  id_aplicativo INTEGER,
+  data_modificacao TIMESTAMP
+);
+
+CREATE OR REPLACE FUNCTION registrar_modificacao_aplicativo()
+  RETURNS TRIGGER AS $$
+BEGIN
+  -- Insere um novo registro na tabela de auditoria_aplicativo
+  INSERT INTO auditoria_aplicativo (id_aplicativo, data_modificacao)
+  VALUES (NEW.codapp, now());
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER aplicativo_modificado
+AFTER UPDATE ON aplicativo
+FOR EACH ROW
+EXECUTE FUNCTION registrar_modificacao_aplicativo();
+
+update aplicativo set valor = '6000.00' where codapp = 1;
+
+select * from auditoria_aplicativo;
