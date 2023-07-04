@@ -267,6 +267,8 @@ app.post("/excluiApp", (req, res) => {
     .query(query, [codapp])
     .then(() => {
       res.status(201).send("Aplicativo excluído com sucesso");
+    });
+});  
 app.get("/comprasPorData", (req, res) => {
   const { date } = req.query;
   const query =
