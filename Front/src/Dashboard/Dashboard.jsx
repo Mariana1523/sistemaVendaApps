@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Dashboard.css";
 import axios from "axios";
+import AuthContext from "../Context/AuthContext";
 // Componente do Dashboard
 export default function Dashpage() {
   const [activeContent, setActiveContent] = useState("content1");
@@ -14,6 +15,7 @@ export default function Dashpage() {
   const [comprasPorMes, setcomprasPorMes] = useState(0);
   const [usuariosCompraramFinancas, setUsuariosCompraramFinancas] = useState(0);
   const [data, setData] = useState("");
+  const { user } = useContext(AuthContext);
 
   const handleInputChange = (event) => {
     setData(event.target.value);
@@ -161,23 +163,41 @@ export default function Dashpage() {
           </div>
         )}
         {activeContent === "content2" && (
-          <div className="content">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Aplicativos Comprados</th>
-                </tr>
-              </thead>
-              <tbody>
-                {comprasUsuario.map((usuario) => (
-                  <tr key={usuario.nome}>
-                    <td>{usuario.nome}</td>
-                    <td>{usuario.count}</td>
+          <div>
+            <div className="content">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Aplicativos Comprados</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {comprasUsuario.map((usuario) => (
+                    <tr key={usuario.nome}>
+                      <td>{usuario.nome}</td>
+                      <td>{usuario.count}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="content">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Valor Total Gastos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{user.nome}</td>
+                    <td>{user.totalCompras}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
         {activeContent === "content3" && (

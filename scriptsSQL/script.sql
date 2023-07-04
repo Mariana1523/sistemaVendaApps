@@ -40,5 +40,16 @@ GROUP BY a.categoria;
 
 
 
+-- criar tabela auditoria com id, id_usuario e data_alteracao, sempre que alterar algum dado na tabela usuario
+CREATE TABLE auditoria (
+  id SERIAL PRIMARY KEY,
+  id_usuario INTEGER,
+  data_modificacao TIMESTAMP
+);
 
 
+
+CREATE TRIGGER usuario_modificado
+AFTER UPDATE ON usuario
+FOR EACH ROW
+EXECUTE FUNCTION registrar_modificacao();

@@ -13,9 +13,6 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-
-
-
 export default function ShoppingPage() {
   const [products, setProducts] = useState([]);
   const { user } = useContext(AuthContext);
@@ -47,7 +44,6 @@ export default function ShoppingPage() {
   const handleDescricaoChange = (event) => {
     setDescricao(event.target.value);
   };
-  
 
   useEffect(() => {
     getAplicativos();
@@ -69,70 +65,73 @@ export default function ShoppingPage() {
   function excluiApp(codapp, deleteAll) {
     const appExcluido = {
       codapp: codapp,
-      deleteAll: deleteAll
+      deleteAll: deleteAll,
     };
-    
-    axios.post("http://localhost:3001/excluiApp", appExcluido)
-    .then(response => {
-      console.log('Produto excluído com sucesso');
-      setDelecao(false)
-      getAplicativos()
-    })
-    .catch(error => {
-      console.error('Erro ao excluir produto', error);
-      // Faça o tratamento de erro necessário
-    });
+
+    axios
+      .post("http://localhost:3001/excluiApp", appExcluido)
+      .then((response) => {
+        console.log("Produto excluído com sucesso");
+        setDelecao(false);
+        getAplicativos();
+      })
+      .catch((error) => {
+        console.error("Erro ao excluir produto", error);
+        // Faça o tratamento de erro necessário
+      });
   }
 
   function insereAplicativos(nome, valor, categoria, imagem, descricao) {
     const appInserido = {
       nome: nome,
-      descricao: descricao, 
-      valor: valor, 
-      categoria: categoria, 
-      imagem: imagem
+      descricao: descricao,
+      valor: valor,
+      categoria: categoria,
+      imagem: imagem,
     };
-    
-    axios.post("http://localhost:3001/insereAplicativos", appInserido)
-    .then(response => {
-      console.log('Produto excluído com sucesso');
-      setInsercao(false)
-      getAplicativos()
-    })
-    .catch(error => {
-      console.error('Erro ao excluir produto', error);
-      // Faça o tratamento de erro necessário
-    });
-  } 
-  
+
+    axios
+      .post("http://localhost:3001/insereAplicativos", appInserido)
+      .then((response) => {
+        console.log("Produto excluído com sucesso");
+        setInsercao(false);
+        getAplicativos();
+      })
+      .catch((error) => {
+        console.error("Erro ao excluir produto", error);
+        // Faça o tratamento de erro necessário
+      });
+  }
+
   function editAplicativos(codapp, nome, valor, categoria, imagem, descricao) {
     const appEditado = {
       codapp: codapp,
       nome: nome,
-      descricao: descricao, 
-      valor: valor, 
-      categoria: categoria, 
-      imagem: imagem
+      descricao: descricao,
+      valor: valor,
+      categoria: categoria,
+      imagem: imagem,
     };
-    
-    axios.post("http://localhost:3001/editAplicativos", appEditado)
-    .then(response => {
-      console.log('Produto excluído com sucesso');
-      setEdicao(false)
-      getAplicativos()
-    })
-    .catch(error => {
-      console.error('Erro ao excluir produto', error);
-      // Faça o tratamento de erro necessário
-    });
-  } 
-  
+
+    axios
+      .post("http://localhost:3001/editAplicativos", appEditado)
+      .then((response) => {
+        console.log("Produto excluído com sucesso");
+        setEdicao(false);
+        getAplicativos();
+      })
+      .catch((error) => {
+        console.error("Erro ao excluir produto", error);
+        // Faça o tratamento de erro necessário
+      });
+  }
+
   function realizarCompra(idUser, idApp) {
     const salvaCompra = {
       idApp: idApp,
       idUser: idUser,
     };
-    
+
     axios
       .post("http://localhost:3001/salvaCompra", salvaCompra)
       .then(function (response) {
@@ -144,9 +143,10 @@ export default function ShoppingPage() {
       });
   }
 
-
   function renderPopUp() {
-    console.log("Use: "+ user.isadmin);
+    console.log(isPopupOpen);
+    console.log(editProduct);
+    console.log("Use: " + user.isadmin);
     if (isPopupOpen && selectedProduct && !editProduct) {
       return (
         <div className="fixed inset-0 flex items-center justify-center">
@@ -223,21 +223,21 @@ export default function ShoppingPage() {
                                 aria-labelledby="options-heading"
                                 className="mt-10"
                               >
-                                
                                 {selectedProduct.descricao}
                                 {!user.isadmin && (
-                                     <button
-                                     onClick={() => {
-                                       setPopupOpen(false)
-                                       realizarCompra(user.id, selectedProduct.codapp)
-                                       
-                                     }}
-                                     className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                   >
-                                     Comprar
-                                   </button>
+                                  <button
+                                    onClick={() => {
+                                      setPopupOpen(false);
+                                      realizarCompra(
+                                        user.id,
+                                        selectedProduct.codapp
+                                      );
+                                    }}
+                                    className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                  >
+                                    Comprar
+                                  </button>
                                 )}
-                               
                               </section>
                             </div>
                           </div>
@@ -248,7 +248,6 @@ export default function ShoppingPage() {
                 </div>
               </Dialog>
             </Transition.Root>
-          
           </div>
         </div>
       );
@@ -299,119 +298,185 @@ export default function ShoppingPage() {
                           </button>
                           <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                             <div className="sm:col-span-8 lg:col-span-7">
-                              
-                                <div class="space-y-12">
-                                  <div class="border-b border-gray-900/10 pb-12">
-                                    <h2 class="text-base font-semibold leading-7 text-gray-900">Configurações</h2>
-                                    <p class="mt-1 text-sm leading-6 text-gray-600">Edite, insira ou delete aplicativos:</p>
-                                    <div className="botoes">
-                                      <button
-                                        onClick={() => {
-                                          setConfigProduct(true);
-                                          setEdicao(true);
-                                        }}
-                                        className="mt-6 mx-auto block rounded-md border border-transparent bg-indigo-600 px-10 py-2 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                      >
-                                        Editar
-                                      </button> 
-                                      <button
-                                        onClick={() => {
-                                          setConfigProduct(true);
-                                          setInsercao(true);
-                                        }}
-                                        className="mt-6 mx-auto block rounded-md border border-transparent bg-indigo-600 px-10 py-2 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                      >
-                                        Inserir
-                                      </button> 
-                                      <button
-                                        onClick={() => {
-                                          setConfigProduct(false);
-                                          setDelecao(true);
-                                        }}
-                                        className="mt-6 mx-auto block rounded-md border border-transparent bg-indigo-600 px-10 py-2 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                      >
-                                        Deletar
-                                      </button> 
-                                    </div>  
-                                    {configs && (
-                                      <div>
-                                        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                          <div class="sm:col-span-4">
-                                            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Nome</label>
-                                            <div class="mt-2">
-                                              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                                <input type="text" name="username" id="username" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                  value = {nome}
-                                                  onChange = {handleNomeChange}
-                                                />                                     
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>                                       
-                                        <div class="sm:col-span-4">
-                                          <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Valor</label>
-                                          <div class="mt-2">
-                                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                              <input type="text" name="username" id="username" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                value = {valor}
-                                                onChange = {handleValorChange}
-                                              />                                             
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="sm:col-span-4">
-                                          <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Categoria</label>
-                                          <div class="mt-2">
-                                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                              <input type="text" name="username" id="username" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                value = {categoria}
-                                                onChange = {handleCategoriaChange}
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="sm:col-span-4">
-                                          <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Imagem</label>
-                                          <div class="mt-2">
-                                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                              <input type="text" name="username" id="username" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                value = {imagem}
-                                                onChange = {handleImagemChange}
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-span-full">
-                                          <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Descrição</label>
-                                          <div class="mt-2">
-                                            <textarea id="about" name="about" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                              value = {descricao}
-                                              onChange = {handleDescricaoChange}
-                                            />
-                                          </div>
-                                        </div>  
-                                      </div>                 
-                                    )}                                                                                                                                                                                                                             
+                              <div class="space-y-12">
+                                <div class="border-b border-gray-900/10 pb-12">
+                                  <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                    Configurações
+                                  </h2>
+                                  <p class="mt-1 text-sm leading-6 text-gray-600">
+                                    Edite, insira ou delete aplicativos:
+                                  </p>
+                                  <div className="botoes">
                                     <button
                                       onClick={() => {
-                                        setEdition(false)
-                                        if(delecao) {
-                                          setDeleteAll(true);
-                                          excluiApp(selectedProduct.codapp, deleteAll)
-                                        } 
-                                        else if(insercao) {
-                                          insereAplicativos(nome, valor, categoria, imagem, descricao)
-                                        }
-                                        else if (edicao){
-                                          editAplicativos(selectedProduct.codapp, nome, valor, categoria, imagem, descricao)
-                                        }
+                                        setConfigProduct(true);
+                                        setEdicao(true);
                                       }}
-                                      className="mt-6 mx-auto block rounded-md border border-transparent bg-indigo-600 px-20 py-4 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                      className="mt-6 mx-auto block rounded-md border border-transparent bg-indigo-600 px-10 py-2 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                     >
-                                      Confirmar
-                                    </button>                                      
+                                      Editar
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        setConfigProduct(true);
+                                        setInsercao(true);
+                                      }}
+                                      className="mt-6 mx-auto block rounded-md border border-transparent bg-indigo-600 px-10 py-2 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    >
+                                      Inserir
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        setConfigProduct(false);
+                                        setDelecao(true);
+                                      }}
+                                      className="mt-6 mx-auto block rounded-md border border-transparent bg-indigo-600 px-10 py-2 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    >
+                                      Deletar
+                                    </button>
                                   </div>
+                                  {configs && (
+                                    <div>
+                                      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <div class="sm:col-span-4">
+                                          <label
+                                            for="username"
+                                            class="block text-sm font-medium leading-6 text-gray-900"
+                                          >
+                                            Nome
+                                          </label>
+                                          <div class="mt-2">
+                                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                              <input
+                                                type="text"
+                                                name="username"
+                                                id="username"
+                                                autocomplete="username"
+                                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                value={nome}
+                                                onChange={handleNomeChange}
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="sm:col-span-4">
+                                        <label
+                                          for="username"
+                                          class="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                          Valor
+                                        </label>
+                                        <div class="mt-2">
+                                          <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                            <input
+                                              type="text"
+                                              name="username"
+                                              id="username"
+                                              autocomplete="username"
+                                              class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                              value={valor}
+                                              onChange={handleValorChange}
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="sm:col-span-4">
+                                        <label
+                                          for="username"
+                                          class="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                          Categoria
+                                        </label>
+                                        <div class="mt-2">
+                                          <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                            <input
+                                              type="text"
+                                              name="username"
+                                              id="username"
+                                              autocomplete="username"
+                                              class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                              value={categoria}
+                                              onChange={handleCategoriaChange}
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="sm:col-span-4">
+                                        <label
+                                          for="username"
+                                          class="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                          Imagem
+                                        </label>
+                                        <div class="mt-2">
+                                          <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                            <input
+                                              type="text"
+                                              name="username"
+                                              id="username"
+                                              autocomplete="username"
+                                              class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                              value={imagem}
+                                              onChange={handleImagemChange}
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-span-full">
+                                        <label
+                                          for="about"
+                                          class="block text-sm font-medium leading-6 text-gray-900"
+                                        >
+                                          Descrição
+                                        </label>
+                                        <div class="mt-2">
+                                          <textarea
+                                            id="about"
+                                            name="about"
+                                            rows="3"
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            value={descricao}
+                                            onChange={handleDescricaoChange}
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                  <button
+                                    onClick={() => {
+                                      setEdition(false);
+                                      if (delecao) {
+                                        setDeleteAll(true);
+                                        excluiApp(
+                                          selectedProduct.codapp,
+                                          deleteAll
+                                        );
+                                      } else if (insercao) {
+                                        insereAplicativos(
+                                          nome,
+                                          valor,
+                                          categoria,
+                                          imagem,
+                                          descricao
+                                        );
+                                      } else if (edicao) {
+                                        editAplicativos(
+                                          selectedProduct.codapp,
+                                          nome,
+                                          valor,
+                                          categoria,
+                                          imagem,
+                                          descricao
+                                        );
+                                      }
+                                    }}
+                                    className="mt-6 mx-auto block rounded-md border border-transparent bg-indigo-600 px-20 py-4 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                  >
+                                    Confirmar
+                                  </button>
                                 </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -421,15 +486,12 @@ export default function ShoppingPage() {
                 </div>
               </Dialog>
             </Transition.Root>
-          
           </div>
         </div>
       );
     }
-    return null
+    return null;
   }
-
-  
 
   return (
     <div className="bg-white">
@@ -440,16 +502,13 @@ export default function ShoppingPage() {
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 ">
           {products.map((product) => (
-            <div
-              key={product.id}
-            >
-              
+            <div key={product.id}>
               <div className="aspect-h-1 pointer aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <img
-                  onClick={ (event) => {
+                  onClick={(event) => {
                     console.log("UserId: " + user.Id);
                     setPopupOpen(true);
-                    event.stopPropagation()
+                    event.stopPropagation();
                     setSelectedProduct(product);
                   }}
                   src={product.imagem}
@@ -465,13 +524,16 @@ export default function ShoppingPage() {
                 <p className="text-sm font-medium text-gray-900">
                   {product.valor}
                 </p>
-                {user.isadmin && (<button onClick={() => {
-                  setEdition(true);
-                  setSelectedProduct(product);
-                }}>
-                  Configurações
-                </button>)}
-                
+                {user.isadmin && (
+                  <button
+                    onClick={() => {
+                      setEdition(true);
+                      setSelectedProduct(product);
+                    }}
+                  >
+                    Configurações
+                  </button>
+                )}
               </div>
             </div>
           ))}

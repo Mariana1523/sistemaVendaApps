@@ -28,6 +28,7 @@ export default function LoginPage() {
       .then((response) => {
         if (response.status === 200) {
           const usuario = response.data;
+          console.log(usuario);
           console.log("Usuário nome? : ", usuario.isadmin);
           const usuarioLogado = {
             id: usuario.id,
@@ -35,6 +36,7 @@ export default function LoginPage() {
             senha: usuario.senha,
             email: usuario.email,
             isadmin: usuario.isadmin,
+            totalCompras: usuario.totalcompras,
           };
 
           return usuarioLogado;
