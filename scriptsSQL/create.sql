@@ -3,7 +3,7 @@ CREATE TABLE usuario (
   nome VARCHAR(255),
   senha VARCHAR(255),
   email VARCHAR(255), 
-  totalcompras Numeric(10,2)
+  totalcompras Numeric(10,2) DEFAULT 0
 
 );
 
