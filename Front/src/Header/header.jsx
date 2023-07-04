@@ -168,6 +168,7 @@ export default function Header(){
                                         if(delecao) {
                                           setDeleteAll(true);
                                           excluiUser(user.nome, deleteAll)
+                                          setUser(null)
                                         }
                                         else if (edicao){
                                           editUser(user.nome, email, senha)
