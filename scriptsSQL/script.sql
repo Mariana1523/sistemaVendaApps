@@ -158,6 +158,39 @@ AFTER INSERT ON compra
 FOR EACH ROW
 EXECUTE FUNCTION atualizar_faturamento();
 
+ALTER TABLE usuario ADD totalCompras float DEFAULT 0;
+
+
+update usuario
+set totalcompras =0;
+insert into compra(idusuario, idapp)
+values (1,2);
+
+CREATE OR REPLACE FUNCTION atualizar_totalCompras()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    UPDATE Usuario
+    SET totalcompras = totalcompras + (
+        SELECT preco
+        FROM Aplicativo
+        WHERE codapp = NEW.idapp
+    )
+    WHERE id = NEW.idusuario;
+    
+    RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trigger_atualizar_totalCompras
+AFTER INSERT ON Compra
+FOR EACH ROW
+EXECUTE FUNCTION atualizar_totalCompras();
+
+
+
+-- Criação da função para atualizar os valores de Faturamento
 -- criar tabela auditoria com id, id_usuario e data_alteracao, sempre que alterar algum dado na tabela usuario
 CREATE TABLE auditoria (
   id SERIAL PRIMARY KEY,
