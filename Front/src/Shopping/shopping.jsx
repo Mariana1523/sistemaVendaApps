@@ -41,7 +41,7 @@ export default function ShoppingPage() {
       idApp: idApp,
       idUser: idUser,
     };
-    
+
     axios
       .post("http://localhost:3001/salvaCompra", salvaCompra)
       .then(function (response) {
@@ -53,10 +53,9 @@ export default function ShoppingPage() {
       });
   }
 
-
   function renderPopUp() {
-    console.log(isPopupOpen)
-    console.log(editProduct)
+    console.log(isPopupOpen);
+    console.log(editProduct);
     if (isPopupOpen && selectedProduct && !editProduct) {
       return (
         <div className="fixed inset-0 flex items-center justify-center">
@@ -133,13 +132,15 @@ export default function ShoppingPage() {
                                 aria-labelledby="options-heading"
                                 className="mt-10"
                               >
-                                
                                 {selectedProduct.descricao}
                                 <button
                                   onClick={() => {
-                                    setPopupOpen(false)
-                                    realizarCompra(user.id, selectedProduct.codapp)
-                                    
+                                    setPopupOpen(false);
+                                    realizarCompra(
+                                      user.id,
+                                      selectedProduct.codapp
+                                    );
+                                    console.log(user);
                                   }}
                                   className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
@@ -155,7 +156,6 @@ export default function ShoppingPage() {
                 </div>
               </Dialog>
             </Transition.Root>
-          
           </div>
         </div>
       );
@@ -210,13 +210,14 @@ export default function ShoppingPage() {
                                 aria-labelledby="options-heading"
                                 className="mt-10"
                               >
-                                
                                 {selectedProduct.descricao}
                                 <button
                                   onClick={() => {
-                                    setEdition(false)
-                                    realizarCompra(user.id, selectedProduct.codapp)
-                                    
+                                    setEdition(false);
+                                    realizarCompra(
+                                      user.id,
+                                      selectedProduct.codapp
+                                    );
                                   }}
                                   className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
@@ -232,15 +233,12 @@ export default function ShoppingPage() {
                 </div>
               </Dialog>
             </Transition.Root>
-          
           </div>
         </div>
       );
     }
-    return null
+    return null;
   }
-
-  
 
   return (
     <div className="bg-white">
@@ -251,16 +249,13 @@ export default function ShoppingPage() {
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 ">
           {products.map((product) => (
-            <div
-              key={product.id}
-            >
-              
+            <div key={product.id}>
               <div className="aspect-h-1 pointer aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <img
-                  onClick={ (event) => {
+                  onClick={(event) => {
                     console.log("UserId: " + user.Id);
                     setPopupOpen(true);
-                    event.stopPropagation()
+                    event.stopPropagation();
                     setSelectedProduct(product);
                   }}
                   src={product.imagem}
@@ -276,10 +271,12 @@ export default function ShoppingPage() {
                 <p className="text-sm font-medium text-gray-900">
                   {product.preco}
                 </p>
-                <button onClick={() => {
-                  setEdition(true);
-                  setSelectedProduct(product);
-                  }}>
+                <button
+                  onClick={() => {
+                    setEdition(true);
+                    setSelectedProduct(product);
+                  }}
+                >
                   Editar
                 </button>
               </div>
