@@ -8,10 +8,10 @@ Professor Evandrino Barros.
 #
 Desenvolvedores: 
 #
-  Diogo Emanuel Antunes Santos
-  Pedro Henrique Rocha de Castro
-  Mariana Gurgel Ferreira
-  Victor Samuel Levindo MontMor
+  Diogo Emanuel Antunes Santos;
+  Pedro Henrique Rocha de Castro;
+  Mariana Gurgel Ferreira;
+  Victor Samuel Levindo MontMor;
 #
 Front-end desenvolvido com o framework react.js.
 Back-end desenvolvido com o fremowork node.js.
